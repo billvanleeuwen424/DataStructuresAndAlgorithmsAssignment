@@ -11,7 +11,7 @@ namespace Assignment2
     /// 
     /// adds: double length and boolean venomous
     /// </summary>
-    public class Snake : Animal
+    public class Snake : BadGuys
     {
         private double length;
         private bool venomous;

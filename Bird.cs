@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assignment2
 {
-    class Bird : Animal
+    public class Bird : Animal
     {
 
 

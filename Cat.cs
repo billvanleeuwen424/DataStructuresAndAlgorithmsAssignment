@@ -13,7 +13,7 @@ namespace Assignment2
     /// 
     /// adds: breed
     /// </summary>
-    public class Cat : Animal
+    public class Cat : BadGuys
     {
 
         //overridden speed from animal class

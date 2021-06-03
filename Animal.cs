@@ -17,7 +17,7 @@ namespace Assignment2
     /// methods:
     /// ToString()
     /// </summary>
-    public abstract class Animal
+    public abstract class Animal :IComparable
     {
         protected Position pos = new Position();
         protected int id;
@@ -25,6 +25,25 @@ namespace Assignment2
         protected double age;
 
         protected static int speed = 5;
+
+
+        /// <summary>
+        /// Compares animals by name
+        /// Reference: https://docs.microsoft.com/en-us/dotnet/api/system.icomparable.compareto?view=net-5.0 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int CompareTo(object obj)
+        {
+            if (obj == null)
+                return 1;
+
+            Animal otherAnimal = obj as Animal;
+            if (otherAnimal != null)
+                return this.name.CompareTo(otherAnimal.name);
+            else
+                throw new ArgumentException("Something messed up the in the animal comparrison!!!!!!!!!!!!!");
+        }
 
         //properties
         public int ID
