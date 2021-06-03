@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace Assignment1
+namespace Assignment2
 {
     /// <summary>
     /// subclass of animal.
@@ -15,14 +15,17 @@ namespace Assignment1
     /// </summary>
     public class Cat : Animal
     {
-    
+
+        //overridden speed from animal class
+        private new int speed = 8;
+
         public BreedEnum breed;
-        
+
         //breed enumerator property
         public BreedEnum Breed
         {
             get { return breed; }
-    
+
             set
             {
                 //does not let user set breed past alloted limit
@@ -35,12 +38,12 @@ namespace Assignment1
                 else
                     breed = value;
             }
-            
+
         }
-    
+
         public Cat()
         {
-    
+
         }
         /// <summary>
         /// positon only constructor
@@ -54,7 +57,7 @@ namespace Assignment1
             pos.Y = ypos;
             pos.Z = zpos;
         }
-    
+
         /// <summary>
         /// All but breed. Breed is set to 1
         /// </summary>
@@ -69,14 +72,14 @@ namespace Assignment1
             this.age = age;
             this.id = id;
             this.name = name;
-    
+
             pos.X = xpos;
             pos.Y = ypos;
             pos.Z = zpos;
-    
+
             Breed = (BreedEnum)1;
         }
-    
+
         /// <summary>
         /// full constructor
         /// </summary>
@@ -92,21 +95,33 @@ namespace Assignment1
             this.age = age;
             this.id = id;
             this.name = name;
-    
+
             pos.X = xpos;
             pos.Y = ypos;
             pos.Z = zpos;
-    
+
             Breed = (BreedEnum)breed;
         }
-    
+
+        /// <summary>
+        /// dz is defaulted zero because cats cant use z
+        /// </summary>
+        /// <param name="dx"></param>
+        /// <param name="dy"></param>
+        /// <param name="dz"></param>
+        public override void Move(double dx, double dy, double dz = 0)
+        {
+            pos.Move(dx, dy, dz);
+        }
+
+
         public override string ToString()
         {
             //checks to be sure position has been given a value
             if (pos == null)
-                return (" Name: " + name + " Age: " + age + " ID: " + id + " Position: " + " N/A" + " Breed: " + Breed.GetDisplayName());
+                return " Name: " + name + " Age: " + age + " ID: " + id + " Position: " + " N/A" + " Breed: " + Breed.GetDisplayName();
             else
-                return ("Name: " + name + " Age: " + age + " ID: " + id + " Position: " + pos.ToString() + " Breed: " + Breed.GetDisplayName()); 
+                return "Name: " + name + " Age: " + age + " ID: " + id + " Position: " + pos.ToString() + " Breed: " + Breed.GetDisplayName();
         }
     }
 
@@ -137,7 +152,7 @@ namespace Assignment1
                 .GetCustomAttribute<DisplayAttribute>()?
                 .GetName();
 
-            if (String.IsNullOrEmpty(displayName))
+            if (string.IsNullOrEmpty(displayName))
             {
                 displayName = enumValue.ToString();
             }

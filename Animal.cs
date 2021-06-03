@@ -4,26 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment1
+namespace Assignment2
 {
-/// <summary>
-/// a superclass to be used by any class created under. 
-/// 
-/// Positon
-/// id
-/// name
-/// age
-/// 
-/// methods:
-/// ToString()
-/// </summary>
-    public class Animal
+    /// <summary>
+    /// a superclass to be used by any class created under. 
+    /// 
+    /// Positon
+    /// id
+    /// name
+    /// age
+    /// 
+    /// methods:
+    /// ToString()
+    /// </summary>
+    public abstract class Animal
     {
         protected Position pos = new Position();
         protected int id;
         protected string name;
         protected double age;
-    
+
+        protected static int speed = 5;
+
         //properties
         public int ID
         {
@@ -42,31 +44,31 @@ namespace Assignment1
             }
         }
         public double Age
-        { 
+        {
             get { return age; }
-    
+
             set
             {
                 age = value;
             }
         }
-    
-        public Position Pos 
+
+        public Position Pos
         {
             get
             {
                 return pos;
             }
-            
+
             set
-            { ; } 
+            {; }
         }
-    
+
         public Animal()
         {
         }
-    
-    
+
+
         /// <summary>
         /// 3 arg constructor, position only
         /// </summary>
@@ -79,7 +81,7 @@ namespace Assignment1
             pos.Y = ypos;
             pos.Z = zpos;
         }
-    
+
         /// <summary>
         /// full constructor
         /// </summary>
@@ -94,33 +96,30 @@ namespace Assignment1
             this.age = age;
             this.id = id;
             this.name = name;
-            
+
             pos.X = xpos;
             pos.Y = ypos;
             pos.Z = zpos;
         }
-    
-    
-    
+
+
+
         /// <summary>
         /// passes the movement up to the Position class
         /// </summary>
         /// <param name="dx">change in x</param>
         /// <param name="dy">change in y</param>
-        /// <param name="dz">change in y</param>
-        public void Move(double dx, double dy, double dz)
-        {
-            pos.Move(dx, dy, dz);
-        }
-    
-    
-        public override string ToString() 
+        /// <param name="dz">change in z</param>
+        public abstract void Move(double dx, double dy, double dz = 0);
+
+
+        public override string ToString()
         {
             //checks to be sure position has been given a value
             if (pos == null)
-                return ("Name: " + name + " Age: " + age + " ID: " + id +  "Position: " + " N/A");
+                return "Name: " + name + " Age: " + age + " ID: " + id + "Position: " + " N/A";
             else
-                return ("Name: " + name + " Age: " + age + " ID: " + id + " Position: " + pos.ToString());
+                return "Name: " + name + " Age: " + age + " ID: " + id + " Position: " + pos.ToString();
         }
     }
 }
