@@ -33,12 +33,28 @@ namespace Assignment2
             count = 0;
         }
 
+        //O(1)
+        //return length of list
         public int GetCount()
         {
             return count;
         }
 
-        public void printAllNodes()
+        //O(N) where n is the length of the list
+        //this method just generates a random position between 0 and the size of the list +1, then passes that position and data to the InsertAt method
+        public void InsertAtRandom(Object Data)
+        {
+
+            Random rand = new Random();
+            int position = rand.Next(count+1);
+
+            //pass the generated position to the insert method
+            InsertAt(Data, position);   //count++ is contained in this method
+        }
+
+        //O(n)
+        //traverse all nodes in the list, print each to console
+        public void PrintAllNodes()
         {
             Node current = head;
             while (current != null)
@@ -48,23 +64,18 @@ namespace Assignment2
             }//end while current is not null
         }//end printAllNodes
 
-        public void AddFirst(Object data)
+        //O(1)
+        //add object to the front of the list, point it to the old front, point the head to the new front
+        public void AddFirst(Object Data)
         {
             if (head == null)
-            {
-                head = new Node();
-                head.data = data;
-                head.next = null;   //
-                head.previous = null; //these two lines arent really needed, since its implicit that they are already null. But this makes it more readable
-
-                tail = head;
-            }
+                StartList(Data);
 
             else
             {
                 //the node we want to add first
                 Node toAdd = new Node();
-                toAdd.data = data;
+                toAdd.data = Data;
 
                 //the current begining of the list
                 Node oldhead = head;
@@ -81,21 +92,17 @@ namespace Assignment2
             count++;
         }
 
-        public void AddLast(Object data)
+        //O(1)
+        //add object to the end of the list, change pointings of the .next and .previous, point tail at new end
+        public void AddLast(Object Data)
         {
             if (head == null)
-            {
-                head = new Node();
-                head.data = data;
-                head.next = null;   //
-                head.previous = null; //these two lines arent really needed, since its implicit that they are already null. But this makes it more readable
+                StartList(Data);
 
-                tail = head;
-            }
             else
             {
                 Node toAdd = new Node();
-                toAdd.data = data;
+                toAdd.data = Data;
                 Node oldEnd = tail;
 
                 oldEnd.next = toAdd;    //link the old end to the new end
@@ -105,6 +112,44 @@ namespace Assignment2
             count++;
         }
 
+        //O(N) where n is the position
+        //inserts a node at the position passed
+        public void InsertAt(Object Data, int position)
+        {
+            if (head == null)
+                StartList(Data);
+
+            Node toInsert = new Node();
+            toInsert.data = Data;
+
+            if (position > count)
+            {
+                AddLast(Data);
+            }
+            else if (position <= 0)
+            {
+                AddFirst(Data);
+            }
+            else
+            {
+                Node current = head;
+                for(int i = 0; i < position-1; i++)
+                {
+                    current = current.next;
+                }
+
+                Node nextNode = current.next;
+
+                current.next = toInsert;    //connect node at desired position-1 to new node
+                nextNode.previous = toInsert;   //connect node at desired position+1 to new node
+                toInsert.previous = current;    //
+                toInsert.next = nextNode;   //connect new node to both
+            }
+            count++;
+        }
+
+        //O(1)
+        //change pointers, cut the end element off.
         public void DeleteLast()
         {
             if (head == null)
@@ -123,5 +168,21 @@ namespace Assignment2
             }
         }
 
+
+
+
+
+
+        //if another method finds that there is no head, this static method goes through the quick process to add one.
+        //this was added because a lot of other methods use the exact same process
+        private void StartList(Object Data)
+        {
+            head = new Node();
+            head.data = Data;
+            head.next = null;   //
+            head.previous = null; //these two lines arent really needed, since its implicit that they are already null. But this makes it more readable
+
+            tail = head;
+        }
     }
 }
