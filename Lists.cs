@@ -41,12 +41,12 @@ namespace Assignment2
         }
 
         //O(N) where n is the length of the list
-        //this method just generates a random position between 0 and the size of the list +1, then passes that position and data to the InsertAt method
+        //this method just generates a random position between 0 and the size of the list, then passes that position and data to the InsertAt method
         public void InsertAtRandom(Object Data)
         {
 
             Random rand = new Random();
-            int position = rand.Next(count+1);
+            int position = rand.Next(count);
 
             //pass the generated position to the insert method
             InsertAt(Data, position);   //count++ is contained in this method
@@ -122,11 +122,11 @@ namespace Assignment2
             Node toInsert = new Node();
             toInsert.data = Data;
 
-            if (position > count)
+            if (position > count)   //if position passed is larger, just pin to the end
             {
                 AddLast(Data);
             }
-            else if (position <= 0)
+            else if (position <= 0) //if the position is less than the list or zero, pin to the front
             {
                 AddFirst(Data);
             }
@@ -168,7 +168,18 @@ namespace Assignment2
             }
         }
 
+        //O(N) where N is the length of list2
+        public void Merge(LinkedList list2)
+        {
+            Node list2node = list2.head;
 
+            for (int i=0; i < list2.count; i++)
+            {
+                AddLast(list2node.data);    //count++ is contained in this method
+                list2node = list2node.next;
+            }
+            list2 = null;
+        }
 
 
 
@@ -183,6 +194,7 @@ namespace Assignment2
             head.previous = null; //these two lines arent really needed, since its implicit that they are already null. But this makes it more readable
 
             tail = head;
+
         }
     }
 }

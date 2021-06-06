@@ -13,13 +13,14 @@ namespace Assignment2
     /// id
     /// name
     /// age
+    /// speed
     /// 
     /// methods:
     /// ToString()
     /// </summary>
     public abstract class Animal :IComparable
     {
-        protected Position pos = new Position();
+        protected Position pos = new();
         protected int id;
         protected string name;
         protected double age;

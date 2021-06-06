@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace Assignment2
 {
     /// <summary>
-    /// only used for snakes and cats
+    /// only used for snakes and cats, made this to provide an Eat method to both.
+    /// 
     /// </summary>
     public abstract class BadGuys : Animal
     {
