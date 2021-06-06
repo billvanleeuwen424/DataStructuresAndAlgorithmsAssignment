@@ -300,6 +300,8 @@ namespace Assignment2
         {
             try
             {
+                IsArrayEmpty();
+                
                 if (one > next-1)   //
                 {
                     throw new IndexOutOfRangeException("1st");
@@ -324,28 +326,102 @@ namespace Assignment2
         // implicitly deletes the [0] entry, since it is overwritten.
         public void DeleteFirst()
         {
-            if (array[0] == null && next == 0)  //check if array is empty
+            try
             {
-                Console.WriteLine("List is empty. deleted nothing.");
-            }
-            else
-            {
+                IsArrayEmpty();
+
                 for (int i = 0; i < next; i++)  //move every array item over one left until you get to the end
                 {
                     array[i] = array[i + 1];
                 }
+                next--;
             }
-            next--;
+            catch (IndexOutOfRangeException e)
+            {
+                Console.WriteLine("{0}, cannot delete items from an empty array", e.Message);
+            }
         }
 
         //O(1)
         //deletes the last item of the list
         public void DeleteLast()
         {
-            array[next - 1] = default(T);  
-            //while this doesnt delete the last element explicitly, it sets it to the default for that datatype ie int = 0.
-            //also when the next-- comes next, the item will be unaccessable.
-            next--;
+            try
+            {
+                IsArrayEmpty();
+
+                array[next - 1] = default;
+                //while this doesnt delete the last element explicitly, it sets it to the default for that datatype ie int = 0.
+                //also when the next-- comes next, the item will be unaccessable.
+                next--;
+            }
+            catch(IndexOutOfRangeException e)
+            {
+                Console.WriteLine("{0}, cannot delete items from an empty array", e.Message);
+            }
+            
+            
+        }
+
+        //O(N) where N is the length of the list
+        //assigns the first element of the array to a holder, shifts everything over, puts the holder at the end.
+        public void RotateLeft()
+        {
+            try
+            {
+                T holder = array[0];
+
+                for (int i = 0; i < next; i++)  //move every array item over one left until you get to the end
+                {
+                    array[i] = array[i + 1];
+                }
+
+                array[next - 1] = holder;
+            }
+            catch(IndexOutOfRangeException e)
+            {
+                Console.WriteLine("{0}, rotation is impossible.", e.Message);
+            }
+        }
+            
+            
+
+        //O(N) where N is the length of the list
+        //assigns the last element of the array to a holder, shifts everything over, puts the holder at the beginning.
+        public void RoateRight()
+        {
+            try
+            {
+                IsArrayEmpty();
+                
+                T holder = array[next - 1];
+
+                for (int i = next - 1; i != 0; i--)
+                {
+                    array[i] = array[i - 1];
+                }
+
+                array[0] = holder;
+            }
+            catch(IndexOutOfRangeException e)
+            {
+                Console.WriteLine("{0}, rotation is impossible.", e.Message);
+            }
+            
+        }
+
+        //private method to check if array is empty, throws exception if it is, rethrows it up.
+        private void IsArrayEmpty()
+        {
+            try
+            {
+                if (next == 0)
+                    throw new IndexOutOfRangeException("Array is empty");
+            }
+            catch(IndexOutOfRangeException)
+            {
+                throw;
+            }
         }
     }
 }
