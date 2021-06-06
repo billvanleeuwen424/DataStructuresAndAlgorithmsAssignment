@@ -21,14 +21,14 @@ namespace Assignment2
     }
 
     //a doubly linked list
-    public class LinkedList
+    public class DoubleLinkedList<T>
     {
         public Node head;
 
         public Node tail;
 
         public int count;
-        public LinkedList()
+        public DoubleLinkedList()
         {
             count = 0;
         }
@@ -42,7 +42,7 @@ namespace Assignment2
 
         //O(N) where n is the length of the list
         //this method just generates a random position between 0 and the size of the list, then passes that position and data to the InsertAt method
-        public void InsertAtRandom(Object Data)
+        public void InsertAtRandom(T Data)
         {
 
             Random rand = new Random();
@@ -66,7 +66,7 @@ namespace Assignment2
 
         //O(1)
         //add object to the front of the list, point it to the old front, point the head to the new front
-        public void AddFirst(Object Data)
+        public void AddFirst(T Data)
         {
             if (head == null)
                 StartList(Data);
@@ -94,14 +94,14 @@ namespace Assignment2
 
         //O(1)
         //add object to the end of the list, change pointings of the .next and .previous, point tail at new end
-        public void AddLast(Object Data)
+        public void AddLast(T Data)
         {
             if (head == null)
                 StartList(Data);
 
             else
             {
-                Node toAdd = new Node();
+                Node toAdd = new();
                 toAdd.data = Data;
                 Node oldEnd = tail;
 
@@ -114,7 +114,7 @@ namespace Assignment2
 
         //O(N) where n is the position
         //inserts a node at the position passed
-        public void InsertAt(Object Data, int position)
+        public void InsertAt(T Data, int position)
         {
             if (head == null)
                 StartList(Data);
@@ -169,13 +169,13 @@ namespace Assignment2
         }
 
         //O(N) where N is the length of list2
-        public void Merge(LinkedList list2)
+        public void Merge(DoubleLinkedList<T> list2)
         {
             Node list2node = list2.head;
 
             for (int i=0; i < list2.count; i++)
             {
-                AddLast(list2node.data);    //count++ is contained in this method
+                AddLast((T)list2node.data);    //count++ is contained in this method
                 list2node = list2node.next;
             }
             list2 = null;
@@ -184,9 +184,9 @@ namespace Assignment2
 
 
 
-        //if another method finds that there is no head, this static method goes through the quick process to add one.
+        //if another method finds that there is no head, this method goes through the quick process to add one.
         //this was added because a lot of other methods use the exact same process
-        private void StartList(Object Data)
+        private void StartList(T Data)
         {
             head = new Node();
             head.data = Data;
@@ -195,6 +195,157 @@ namespace Assignment2
 
             tail = head;
 
+        }
+    }
+
+    public class ArrayList<T>
+    {
+        private T[] array;
+        private int next = 0;   //the next empty position in the array... also can be used as a count of items in the array
+
+        public int GetCount()
+        {
+            return next;
+        }
+
+        //constructor
+        //makes a size 1 array
+        public ArrayList()
+        {
+            array = new T[1];
+        }
+        //constructor
+        //makes an array of a specified size
+        public ArrayList(int size)
+        {
+            array = new T[size+1];
+        }
+
+        //O(N) where N is the size of the array
+        //creates a new array double the size of the previous and injects each item in its original order into it.
+        private void Grow()
+        {
+
+            T[] newarray = new T[array.Length * 2];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                newarray[i] = array[i];
+            }
+
+            array = newarray;
+        }
+
+        //passes position zero and the data to insert
+        public void AddFront(T data)
+        {
+            Insert(data, 0);
+        }
+        //passes the next open positon to insert
+        public void AddLast(T data)
+        {
+            Insert(data, next);
+        }
+
+        //O(N) where N is length of the items to the right of the desired position
+        //moves each item to the right by one position, increases list size if needed, then inserts item.
+        private void Insert(T data, int position)
+        {
+            if(next==0) //if array is empty
+            {
+                array[0] = data;
+            }
+            else if (position == next)  //if the data is to be added to the end of the list
+            {
+                array[next] = data;
+            }
+            else
+            {
+                
+                //try, catch, finally section to block entries outside of the 'arraylists' bounds
+                try
+                {
+                    if (position > next)
+                        throw new IndexOutOfRangeException();
+
+                }
+                catch(IndexOutOfRangeException e)
+                {
+                    Console.WriteLine("index does not exist. item has been added to the end of the list");
+                    position = next;
+                }
+                finally
+                {
+                    if (next > array.Length) //if the next element will out of bounds the array
+                        Grow();
+
+                    for (int i = next; i != position; i--)  //start at the end of the array, move each item to the right
+                    {
+                        array[i] = array[i - 1];
+                    }
+
+                    array[position] = data;
+                }
+            }
+            
+            next++;
+        }
+
+
+        
+        //O(1)
+        //takes to indicies of the array, assigns object two to a holder, assigns object one to position two
+        //assigns the holder(object two) to position one
+        public void Swap(int one, int two)
+        {
+            try
+            {
+                if (one > next-1)   //
+                {
+                    throw new IndexOutOfRangeException("1st");
+                }
+                else if (two > next-1)  //if entered indicies one or two are out of bounds, dont switch
+                {
+                    throw new IndexOutOfRangeException("2nd");
+                }
+
+                T tempHolder = array[two];
+                array[two] = array[one];
+                array[one] = tempHolder;
+            }
+            catch(IndexOutOfRangeException e)
+            {
+                Console.WriteLine("{0} index entry out of bounds, Swap terminated.", e.Message);
+            }
+        }
+
+        //O(N) where N is the length of the list
+        //shifts every entry in the array over to the left one. 
+        // implicitly deletes the [0] entry, since it is overwritten.
+        public void DeleteFirst()
+        {
+            if (array[0] == null && next == 0)  //check if array is empty
+            {
+                Console.WriteLine("List is empty. deleted nothing.");
+            }
+            else
+            {
+                for (int i = 0; i < next; i++)  //move every array item over one left until you get to the end
+                {
+                    array[i] = array[i + 1];
+                }
+            }
+            next--;
+        }
+
+        //O(1)
+        //deletes the last item of the list
+        public void DeleteLast()
+        {
+            array[next - 1] = default(T);  
+            //while this doesnt delete the last element explicitly, it sets it to the default for that datatype ie int = 0.
+            //also when the next-- comes next, the item will be unaccessable.
+            next--;
         }
     }
 }

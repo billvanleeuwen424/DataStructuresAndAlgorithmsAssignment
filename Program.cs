@@ -9,7 +9,7 @@ namespace Assignment2
     {
         static void Main(string[] args)
         {
-
+            /*
 
             //create array for cat names with length of list
             string[] catNames = new string[100];
@@ -55,11 +55,11 @@ namespace Assignment2
             {
                 Console.WriteLine(i);
             }
-
+            */
 
 
             /*TESTING SECTION*/
-
+            /*
             //testing for position setting
             Console.WriteLine("\n\nTesting postion class....");
             Console.WriteLine("Testing 0 arg constructor");
@@ -112,7 +112,7 @@ namespace Assignment2
             Console.WriteLine("SnakeArray[0]: {0} .... move -3x, -2y, -1z .... Value should be 7, 8, 9", snakeArray[0]);
             snakeArray[0].Move(1, 1, 1);
             Console.WriteLine("SnakeArray[0]: {0} .... move +1 in each direction .... Value should be 8, 9, 10", snakeArray[0]);
-
+            */
         }
 
         /// <summary>
