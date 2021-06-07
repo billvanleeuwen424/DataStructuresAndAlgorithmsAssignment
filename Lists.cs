@@ -218,7 +218,7 @@ namespace Assignment2
         //makes an array of a specified size
         public ArrayList(int size)
         {
-            array = new T[size+1];
+            array = new T[size];
         }
 
         //O(N) where N is the size of the array
@@ -261,17 +261,18 @@ namespace Assignment2
             }
             else
             {
-                
                 //try, catch, finally section to block entries outside of the 'arraylists' bounds
                 try
                 {
                     if (position > next)
-                        throw new IndexOutOfRangeException();
+                        throw new IndexOutOfRangeException("desired position is larger than the array");
+                    if(position < 0)
+                        throw new IndexOutOfRangeException("desired position is less than zero");
 
                 }
                 catch(IndexOutOfRangeException e)
                 {
-                    Console.WriteLine("index does not exist. item has been added to the end of the list");
+                    Console.WriteLine(e.Message);
                     position = next;
                 }
                 finally
@@ -291,8 +292,15 @@ namespace Assignment2
             next++;
         }
 
+        //O(1) but O(N) inside the Insert method.
+        //passes the position to insert
+        public void InsertBefore(T data, int before)
+        {
+            Insert(data, before - 1); //just pases it to the insert method
+        }
 
-        
+
+
         //O(1)
         //takes to indicies of the array, assigns object two to a holder, assigns object one to position two
         //assigns the holder(object two) to position one
@@ -338,7 +346,7 @@ namespace Assignment2
             }
             catch (IndexOutOfRangeException e)
             {
-                Console.WriteLine("{0}, cannot delete items from an empty array", e.Message);
+                Console.WriteLine("{0} cannot delete items from an empty array", e.Message);
             }
         }
 
@@ -357,7 +365,7 @@ namespace Assignment2
             }
             catch(IndexOutOfRangeException e)
             {
-                Console.WriteLine("{0}, cannot delete items from an empty array", e.Message);
+                Console.WriteLine("{0} cannot delete items from an empty array", e.Message);
             }
             
             
@@ -380,7 +388,7 @@ namespace Assignment2
             }
             catch(IndexOutOfRangeException e)
             {
-                Console.WriteLine("{0}, rotation is impossible.", e.Message);
+                Console.WriteLine("{0} rotation is impossible.", e.Message);
             }
         }
             
@@ -405,7 +413,7 @@ namespace Assignment2
             }
             catch(IndexOutOfRangeException e)
             {
-                Console.WriteLine("{0}, rotation is impossible.", e.Message);
+                Console.WriteLine("{0} rotation is impossible.", e.Message);
             }
             
         }
@@ -416,12 +424,150 @@ namespace Assignment2
             try
             {
                 if (next == 0)
-                    throw new IndexOutOfRangeException("Array is empty");
+                    throw new IndexOutOfRangeException("Array is empty.");
             }
             catch(IndexOutOfRangeException)
             {
                 throw;
             }
         }
+
+        /// <summary>
+        /// O(N+M) where N is the length of list1, and M is the length of list2
+        /// //merges two arraylists and returns it
+        /// </summary>
+        /// <param name="list1"></param>
+        /// <param name="list2"></param>
+        /// <returns></returns>
+        public static ArrayList<T> ArrayListMerge(ArrayList<T> list1, ArrayList<T> list2)
+        {
+            
+            int list1length = (list1.GetCount());
+            int list2length = (list2.GetCount());
+            int newListLength = (list1length + list2length);
+
+            ArrayList<T> list3 = new(newListLength);   //build new list of size list1+list2
+
+            //insert every item of list 1 into list3, increment the next operator eachtime
+            for (int i = 0; i < list1length; i++)
+            {
+                list3.array[i] = list1.array[i];
+                list3.next++;
+            }
+
+
+            //add every element from list2 after the elements from list1
+            int j = list3.next;
+            for(int i = 0; i < list2length; i++)
+            {
+                list3.array[j] = list2.array[i];
+                j++;
+                list3.next++;
+            }
+            return list3;
+        }
+
+        /// <summary>
+        /// O(N+M) where N is the length of list1, and M is the length of list2
+        /// overload where user can choose to delete the old lists
+        /// </summary>
+        /// <param name="list1"></param>
+        /// <param name="list2"></param>
+        /// <param name="deleteOldLists"></param>
+        /// <returns></returns>
+        public static ArrayList<T> ArrayListMerge(ArrayList<T> list1, ArrayList<T> list2, bool deleteOldLists)
+        {
+
+            int list1length = (list1.GetCount());
+            int list2length = (list2.GetCount());
+            int newListLength = (list1length + list2length);
+
+            ArrayList<T> list3 = new(newListLength);   //build new list of size list1+list2
+
+            //insert every item of list 1 into list3, increment the next operator eachtime
+            for (int i = 0; i < list1length; i++)
+            {
+                list3.array[i] = list1.array[i];
+                list3.next++;
+            }
+
+
+            //add every element from list2 after the elements from list1
+            int j = list3.next;
+            for (int i = 0; i < list2length; i++)
+            {
+                list3.array[j] = list2.array[i];
+                j++;
+                list3.next++;
+            }
+
+            //sends lists to be deleted 
+            if(deleteOldLists == true)
+            {
+                list1.DeleteAll();
+                list2.DeleteAll();
+            }
+
+            return list3;
+        }
+
+
+        //O(N) where N is the length of the array
+        //just returns a nicely formatted string of every object in the array and its index
+        public string PrintAllForward()
+        {
+            int listlength = GetCount();
+            string printer = "";
+
+            for(int i = 0; i < listlength; i++)
+            {
+                printer += "[" + i + " : " + array[i].ToString() + "]" + '\n';
+            }
+
+            return printer;
+        }
+
+        //O(N) where N is the length of the array
+        //just returns a nicely formatted string of every object in the array and its index, but in reverse
+        public string PrintAllReverse()
+        {
+            int listlength = GetCount();
+            string printer = "";
+
+            for (int i = listlength-1; i >= 0 ; i--)
+            {
+                printer += "[" + i + " : " + array[i].ToString() + "]" + '\n';
+            }
+
+            return printer;
+        }
+
+
+        //O(N) where N is the amount of items in the array
+        //returns every list item to default for its type. catches if the list is empty.
+        public void DeleteAll()
+        {
+            try
+            {
+                IsArrayEmpty();
+
+                int listlength = GetCount();
+
+                for(int i = 0; i < listlength; i++)
+                {
+                    array[i] = default;
+                }
+                next = 0;
+            }
+            catch(IndexOutOfRangeException e)
+            {
+                Console.WriteLine("{0} there are no items to delete.", e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("list is now empty.");
+            }
+        }
     }
+
 }

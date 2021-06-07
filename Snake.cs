@@ -135,9 +135,9 @@ namespace Assignment2
         {
             //checks to be sure position has been given a value
             if (pos == null)
-                return "Name: " + name + " Age: " + age + " ID: " + id + " Venomous? " + venomous + " Length: " + length + " Position: " + " N/A";
+                return "Name: " + name + " Age: " + age + " ID: " + id + " Venomous? " + venomous + ". Length: " + length + " Position: " + " N/A";
             else
-                return "Name: " + name + " Age: " + age + " ID: " + id + " Venomous? " + venomous + " Length: " + length + " Position: " + pos.ToString();
+                return "Name: " + name + " Age: " + age + " ID: " + id + " Venomous? " + venomous + ". Length: " + length + " Position: " + pos.ToString();
         }
     }
 }

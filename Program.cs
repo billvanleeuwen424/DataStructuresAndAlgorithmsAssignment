@@ -9,8 +9,7 @@ namespace Assignment2
     {
         static void Main(string[] args)
         {
-            /*
-
+            
             //create array for cat names with length of list
             string[] catNames = new string[100];
             ReadCatNames(catNames);
@@ -18,19 +17,33 @@ namespace Assignment2
             string[] snakeNames = new string[35];
             ReadSnakeNames(snakeNames);
 
-            Snake[] snakeArray = new Snake[5];
-            Cat[] catArray = new Cat[5];
+            //snake[] snakearray = new snake[5];
+            //cat[] catarray = new cat[5];
 
+            ArrayList<BadGuys> snakeArray = new(5);
+            ArrayList<BadGuys> catArray = new(5);
+
+            
             //generate 5 of each cat and snake, load into an array
-            for (int i = 0; i < catArray.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
-                catArray[i] = RandCat(catNames);
+                catArray.AddLast(RandCat(catNames));
             }
-            for (int i = 0; i < snakeArray.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
-                snakeArray[i] = RandSnake(snakeNames);
+                snakeArray.AddLast(RandSnake(snakeNames));
             }
 
+            Console.WriteLine(catArray.PrintAllForward());
+            Console.WriteLine(snakeArray.PrintAllForward());
+            Console.WriteLine(snakeArray.PrintAllReverse());
+
+            ArrayList<BadGuys> catsnakearray = ArrayList<BadGuys>.ArrayListMerge(catArray, snakeArray, true);
+
+            Console.WriteLine(catsnakearray.PrintAllForward());
+
+            Console.WriteLine(snakeArray.PrintAllForward());
+            /*
             LinkedList<Snake> snakelist = new LinkedList<Snake>(snakeArray);
             LinkedList<Cat> catlist = new LinkedList<Cat>(catArray);
 
@@ -168,7 +181,7 @@ namespace Assignment2
         static string[] ReadCatNames(string[] catNames)
         {
             //enter file into filestream and streamreader
-            string path = "..\\..\\..\\..\\..\\catnames.txt";   //this is a relative file path to the Assignment1 Folder
+            string path = "..\\..\\..\\..\\catnames.txt";   //this is a relative file path to the Assignment1 Folder
             FileStream inFile = new FileStream(path, FileMode.Open, FileAccess.Read);
             StreamReader reader = new StreamReader(inFile);
             //set delimeter between number and catname
