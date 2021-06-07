@@ -247,6 +247,13 @@ namespace Assignment2
             Insert(data, next);
         }
 
+        //O(1) but O(N) inside the Insert method.
+        //passes the position to insert
+        public void InsertBefore(T data, int before)
+        {
+            Insert(data, before - 1); //just pases it to the insert method
+        }
+
         //O(N) where N is length of the items to the right of the desired position
         //moves each item to the right by one position, increases list size if needed, then inserts item.
         private void Insert(T data, int position)
@@ -257,6 +264,8 @@ namespace Assignment2
             }
             else if (position == next)  //if the data is to be added to the end of the list
             {
+                if (next >= array.Length) //if the next element will out of bounds the array
+                    Grow();
                 array[next] = data;
             }
             else
@@ -277,7 +286,7 @@ namespace Assignment2
                 }
                 finally
                 {
-                    if (next > array.Length) //if the next element will out of bounds the array
+                    if (next >= array.Length) //if the next element will out of bounds the array
                         Grow();
 
                     for (int i = next; i != position; i--)  //start at the end of the array, move each item to the right
@@ -292,43 +301,6 @@ namespace Assignment2
             next++;
         }
 
-        //O(1) but O(N) inside the Insert method.
-        //passes the position to insert
-        public void InsertBefore(T data, int before)
-        {
-            Insert(data, before - 1); //just pases it to the insert method
-        }
-
-
-
-        //O(1)
-        //takes to indicies of the array, assigns object two to a holder, assigns object one to position two
-        //assigns the holder(object two) to position one
-        public void Swap(int one, int two)
-        {
-            try
-            {
-                IsArrayEmpty();
-                
-                if (one > next-1)   //
-                {
-                    throw new IndexOutOfRangeException("1st");
-                }
-                else if (two > next-1)  //if entered indicies one or two are out of bounds, dont switch
-                {
-                    throw new IndexOutOfRangeException("2nd");
-                }
-
-                T tempHolder = array[two];
-                array[two] = array[one];
-                array[one] = tempHolder;
-            }
-            catch(IndexOutOfRangeException e)
-            {
-                Console.WriteLine("{0} index entry out of bounds, Swap terminated.", e.Message);
-            }
-        }
-
         //O(N) where N is the length of the list
         //shifts every entry in the array over to the left one. 
         // implicitly deletes the [0] entry, since it is overwritten.
@@ -338,7 +310,7 @@ namespace Assignment2
             {
                 IsArrayEmpty();
 
-                for (int i = 0; i < next; i++)  //move every array item over one left until you get to the end
+                for (int i = 0; i < next-1; i++)  //move every array item over one left until you get to the end
                 {
                     array[i] = array[i + 1];
                 }
@@ -367,8 +339,28 @@ namespace Assignment2
             {
                 Console.WriteLine("{0} cannot delete items from an empty array", e.Message);
             }
-            
-            
+        }
+
+        //O(N) where N is the amount of items in the array
+        //returns every list item to default for its type. catches if the list is empty.
+        public void DeleteAll()
+        {
+            try
+            {
+                IsArrayEmpty();
+
+                int listlength = GetCount();
+
+                for (int i = 0; i < listlength; i++)
+                {
+                    array[i] = default;
+                }
+                next = 0;
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                Console.WriteLine("{0} there are no items to delete.", e.Message);
+            }
         }
 
         //O(N) where N is the length of the list
@@ -377,9 +369,11 @@ namespace Assignment2
         {
             try
             {
+                IsArrayEmpty();
+
                 T holder = array[0];
 
-                for (int i = 0; i < next; i++)  //move every array item over one left until you get to the end
+                for (int i = 0; i < next-1; i++)  //move every array item over one left until you get to the end
                 {
                     array[i] = array[i + 1];
                 }
@@ -388,7 +382,7 @@ namespace Assignment2
             }
             catch(IndexOutOfRangeException e)
             {
-                Console.WriteLine("{0} rotation is impossible.", e.Message);
+                Console.WriteLine("{0} rotation left is impossible.", e.Message);
             }
         }
             
@@ -396,7 +390,7 @@ namespace Assignment2
 
         //O(N) where N is the length of the list
         //assigns the last element of the array to a holder, shifts everything over, puts the holder at the beginning.
-        public void RoateRight()
+        public void RotateRight()
         {
             try
             {
@@ -413,7 +407,89 @@ namespace Assignment2
             }
             catch(IndexOutOfRangeException e)
             {
-                Console.WriteLine("{0} rotation is impossible.", e.Message);
+                Console.WriteLine("{0} rotation right is impossible.", e.Message);
+            }
+            
+        }
+
+        //O(1)
+        //takes to indicies of the array, assigns object two to a holder, assigns object one to position two
+        //assigns the holder(object two) to position one
+        public void Swap(int one, int two)
+        {
+            try
+            {
+                IsArrayEmpty();
+
+                if (one > next - 1 || one < 0)   //
+                {
+                    throw new IndexOutOfRangeException("1st");
+                }
+                else if (two > next - 1 || two < 0)  //if entered indicies one or two are out of bounds, dont switch
+                {
+                    throw new IndexOutOfRangeException("2nd");
+                }
+
+                T tempHolder = array[two];
+                array[two] = array[one];
+                array[one] = tempHolder;
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                Console.WriteLine("{0} index entry out of bounds, Swap terminated.", e.Message);
+            }
+        }
+
+        //O(N) where N is the length of the array
+        //just returns a nicely formatted string of every object in the array and its index
+        public string PrintAllForward()
+        {
+            try
+            {
+                IsArrayEmpty();
+
+                int listlength = GetCount();
+                string printer = "";
+
+                for (int i = 0; i < listlength; i++)
+                {
+                    printer += "[" + i + " : " + array[i].ToString() + "]" + '\n';
+                }
+                return printer;
+            }
+            catch(IndexOutOfRangeException e)
+            {
+                return e.Message;
+            }
+            
+        }
+
+        //O() unknown
+        //sorts the array by animal name
+        public void InPlaceSort()
+        {
+            Array.Sort(array);
+        }
+
+        //O(N) where N is the length of the array
+        //just returns a nicely formatted string of every object in the array and its index, but in reverse
+        public string PrintAllReverse()
+        {
+            try
+            {
+                int listlength = GetCount();
+                string printer = "";
+
+                for (int i = listlength - 1; i >= 0; i--)
+                {
+                    printer += "[" + i + " : " + array[i].ToString() + "]" + '\n';
+                }
+
+                return printer;
+            }
+            catch(IndexOutOfRangeException e)
+            {
+                return e.Message;
             }
             
         }
@@ -426,7 +502,7 @@ namespace Assignment2
                 if (next == 0)
                     throw new IndexOutOfRangeException("Array is empty.");
             }
-            catch(IndexOutOfRangeException)
+            catch (IndexOutOfRangeException)
             {
                 throw;
             }
@@ -441,7 +517,7 @@ namespace Assignment2
         /// <returns></returns>
         public static ArrayList<T> ArrayListMerge(ArrayList<T> list1, ArrayList<T> list2)
         {
-            
+
             int list1length = (list1.GetCount());
             int list2length = (list2.GetCount());
             int newListLength = (list1length + list2length);
@@ -455,10 +531,9 @@ namespace Assignment2
                 list3.next++;
             }
 
-
             //add every element from list2 after the elements from list1
             int j = list3.next;
-            for(int i = 0; i < list2length; i++)
+            for (int i = 0; i < list2length; i++)
             {
                 list3.array[j] = list2.array[i];
                 j++;
@@ -502,71 +577,13 @@ namespace Assignment2
             }
 
             //sends lists to be deleted 
-            if(deleteOldLists == true)
+            if (deleteOldLists == true)
             {
                 list1.DeleteAll();
                 list2.DeleteAll();
             }
 
             return list3;
-        }
-
-
-        //O(N) where N is the length of the array
-        //just returns a nicely formatted string of every object in the array and its index
-        public string PrintAllForward()
-        {
-            int listlength = GetCount();
-            string printer = "";
-
-            for(int i = 0; i < listlength; i++)
-            {
-                printer += "[" + i + " : " + array[i].ToString() + "]" + '\n';
-            }
-
-            return printer;
-        }
-
-        //O(N) where N is the length of the array
-        //just returns a nicely formatted string of every object in the array and its index, but in reverse
-        public string PrintAllReverse()
-        {
-            int listlength = GetCount();
-            string printer = "";
-
-            for (int i = listlength-1; i >= 0 ; i--)
-            {
-                printer += "[" + i + " : " + array[i].ToString() + "]" + '\n';
-            }
-
-            return printer;
-        }
-
-
-        //O(N) where N is the amount of items in the array
-        //returns every list item to default for its type. catches if the list is empty.
-        public void DeleteAll()
-        {
-            try
-            {
-                IsArrayEmpty();
-
-                int listlength = GetCount();
-
-                for(int i = 0; i < listlength; i++)
-                {
-                    array[i] = default;
-                }
-                next = 0;
-            }
-            catch(IndexOutOfRangeException e)
-            {
-                Console.WriteLine("{0} there are no items to delete.", e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("list is now empty.");
-            }
         }
     }
 

@@ -17,13 +17,26 @@ namespace Assignment2
             string[] snakeNames = new string[35];
             ReadSnakeNames(snakeNames);
 
-            //snake[] snakearray = new snake[5];
-            //cat[] catarray = new cat[5];
 
-            ArrayList<BadGuys> snakeArray = new(5);
-            ArrayList<BadGuys> catArray = new(5);
 
-            
+            //catArray.AddLast(RandCat(catNames));
+            //snakeArray.AddLast(RandSnake(snakeNames));
+            //catArray.AddLast(RandCat(catNames));
+            //snakeArray.AddLast(RandSnake(snakeNames));
+
+            //Console.WriteLine("snake array with two objects:\n{0}", snakeArray.PrintAllForward());
+            //Console.WriteLine("cat array with two objects:\n{0}", catArray.PrintAllForward());
+
+            //catArray.InsertBefore(RandCat(catNames), 2);
+            //snakeArray.InsertBefore(RandSnake(snakeNames), 2);
+
+            //Console.WriteLine("snake array with three objects. New object should be in the center:\n{0}", snakeArray.PrintAllForward());
+            //Console.WriteLine("cat array with three objects. New object should be in the center:\n{0}", catArray.PrintAllForward());
+
+
+            ArrayList<Animal> snakeArray = new(5);
+            ArrayList<Animal> catArray = new(5);
+
             //generate 5 of each cat and snake, load into an array
             for (int i = 0; i < 5; i++)
             {
@@ -34,6 +47,69 @@ namespace Assignment2
                 snakeArray.AddLast(RandSnake(snakeNames));
             }
 
+            snakeArray.InPlaceSort();
+            catArray.InPlaceSort();
+
+
+
+
+
+            //Console.WriteLine("snake array with 5 objects sorted: \n{0}", snakeArray.PrintAllForward());
+            //Console.WriteLine("cat array with 5 objects sorted: \n{0}", catArray.PrintAllForward());
+
+            //snakeArray.DeleteAll();
+            //catArray.DeleteAll();
+
+            //Console.WriteLine("snake array after DeleteAll: \n{0}", snakeArray.PrintAllForward());
+            //Console.WriteLine("cat array after DeleteAll: \n{0}", catArray.PrintAllForward());
+
+            //Console.WriteLine("\n\nTest on an empty array");
+            //ArrayList<Animal> snakeArray2 = new(5);
+            //ArrayList<Animal> catArray2 = new(5);
+
+            //snakeArray.DeleteAll();
+            //catArray.DeleteAll();
+
+
+            //ArrayList<Animal> catsAndSnakesArray = ArrayList<Animal>.ArrayListMerge(snakeArray, catArray);
+
+            //Console.WriteLine("merged array: \n{0}", catsAndSnakesArray.PrintAllForward());
+
+            //Console.WriteLine("\nShowing that both old arrays still exist");
+            //Console.WriteLine("snake array: \n{0}", snakeArray.PrintAllForward());
+            //Console.WriteLine("cat array: \n{0}", catArray.PrintAllForward());
+
+            //Console.WriteLine("\nShowing the delete overload");
+            //ArrayList<Animal> catsAndSnakesArray2 = ArrayList<Animal>.ArrayListMerge(snakeArray, catArray, true);
+
+            //Console.WriteLine("merged array: \n{0}", catsAndSnakesArray.PrintAllForward());
+
+            //Console.WriteLine("snake array: \n{0}", snakeArray.PrintAllForward());
+            //Console.WriteLine("cat array: \n{0}", catArray.PrintAllForward());
+
+
+
+            //Console.WriteLine("\n\nA test to see if it will stop swaps on an empty array");
+            //ArrayList<Animal> snakeArray2 = new(5);
+            //ArrayList<Animal> catArray2 = new(5);
+            //snakeArray2.RotateLeft();
+            //catArray2.RotateLeft();
+            //snakeArray2.RotateRight();
+            //catArray2.RotateRight();
+
+
+            //Console.WriteLine("\n\nA test to see if it will stop indicies from outside of the array");
+            //Console.WriteLine("below 0 test");
+            //snakeArray.Swap(-1, 4);
+            //catArray.Swap(-1, 4);
+            //Console.WriteLine("above size of array test");
+            //snakeArray.Swap(1, 40);
+            //catArray.Swap(1, 40);
+            //Console.WriteLine("\nShowing that the swaps were terminated");
+            //Console.WriteLine("snake array with 5 objects sorted: \n{0}", snakeArray.PrintAllForward());
+            //Console.WriteLine("cat array with 5 objects sorted: \n{0}", catArray.PrintAllForward());
+
+            /*
             Console.WriteLine(catArray.PrintAllForward());
             Console.WriteLine(snakeArray.PrintAllForward());
             Console.WriteLine(snakeArray.PrintAllReverse());
@@ -42,8 +118,22 @@ namespace Assignment2
 
             Console.WriteLine(catsnakearray.PrintAllForward());
 
-            Console.WriteLine(snakeArray.PrintAllForward());
-            /*
+            catsnakearray.InPlaceSort();
+
+            Console.WriteLine(catsnakearray.PrintAllForward());
+
+            catsnakearray.RotateRight();
+
+            Console.WriteLine("Rotated right \n {0}",catsnakearray.PrintAllForward());
+
+            catsnakearray.RotateLeft();
+
+            Console.WriteLine("Rotated left \n {0}",catsnakearray.PrintAllForward());
+
+            catsnakearray.DeleteFirst();
+
+            Console.WriteLine("Rotated left \n {0}", catsnakearray.PrintAllForward());
+           
             LinkedList<Snake> snakelist = new LinkedList<Snake>(snakeArray);
             LinkedList<Cat> catlist = new LinkedList<Cat>(catArray);
 

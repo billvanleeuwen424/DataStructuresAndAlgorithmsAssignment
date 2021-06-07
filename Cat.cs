@@ -119,9 +119,9 @@ namespace Assignment2
         {
             //checks to be sure position has been given a value
             if (pos == null)
-                return " Name: " + name + " Age: " + age + " ID: " + id + " Position: " + " N/A" + " Breed: " + Breed.GetDisplayName();
+                return " Name: " + name + " Age: " + age + " ID: " + id  +  " Breed: " + Breed.GetDisplayName() + " Position: " + " N/A";
             else
-                return "Name: " + name + " Age: " + age + " ID: " + id + " Position: " + pos.ToString() + " Breed: " + Breed.GetDisplayName();
+                return "Name: " + name + " Age: " + age + " ID: " + id  + " Breed: " + Breed.GetDisplayName() + " Position: " + pos.ToString();
         }
     }
 
