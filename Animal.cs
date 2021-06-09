@@ -31,14 +31,6 @@ namespace Assignment2
         protected string name;
         protected double age;
 
-        protected int speed = 5;
-        protected int range = 5;
-
-        public int Range
-        {
-            get { return range; }
-        }
-
         /// <summary>
         /// Compares animals by name
         /// Reference: https://docs.microsoft.com/en-us/dotnet/api/system.icomparable.compareto?view=net-5.0 
