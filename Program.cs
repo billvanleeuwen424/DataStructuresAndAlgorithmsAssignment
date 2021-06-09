@@ -16,206 +16,134 @@ namespace Assignment2
             //vice versa but with length of snake names
             string[] snakeNames = new string[35];
             ReadSnakeNames(snakeNames);
+            //bird names
+            string[] birdNames = new string[10] {"Tweety", "Zazu", "Iago", "Hula", "Manu", "Couscous", "Roo", "Tookie", "Plucky", "Jay"};
+
+            //init arrays
+            ArrayList<Animal> snakeArray = new(3);
+            ArrayList<Animal> catArray = new(3);
+
+            //fill arrays
+            catArray.AddFront(RandCat(catNames));
+            catArray.AddFront(RandCat(catNames));
+            catArray.AddFront(RandCat(catNames));
+            snakeArray.AddLast(RandSnake(snakeNames));
+            snakeArray.AddLast(RandSnake(snakeNames));  //removed one cat and one bird here for ease of testing
+            snakeArray.AddLast(RandSnake(snakeNames));
+
+            //merge both and sort it
+            ArrayList<Animal> snakecatArray = ArrayList<Animal>.ArrayListMerge(snakeArray, catArray);
+            snakecatArray.InPlaceSort();
+
+            //print merged array
+            Console.WriteLine("Print Forward");
+            Console.WriteLine(snakecatArray.PrintAllForward());
+            Console.WriteLine("Print Reverse");
+            Console.WriteLine(snakecatArray.PrintAllReverse());
 
 
-
-            //catArray.AddLast(RandCat(catNames));
-            //snakeArray.AddLast(RandSnake(snakeNames));
-            //catArray.AddLast(RandCat(catNames));
-            //snakeArray.AddLast(RandSnake(snakeNames));
-
-            //Console.WriteLine("snake array with two objects:\n{0}", snakeArray.PrintAllForward());
-            //Console.WriteLine("cat array with two objects:\n{0}", catArray.PrintAllForward());
-
-            //catArray.InsertBefore(RandCat(catNames), 2);
-            //snakeArray.InsertBefore(RandSnake(snakeNames), 2);
-
-            //Console.WriteLine("snake array with three objects. New object should be in the center:\n{0}", snakeArray.PrintAllForward());
-            //Console.WriteLine("cat array with three objects. New object should be in the center:\n{0}", catArray.PrintAllForward());
-
-
-            ArrayList<Animal> snakeArray = new(5);
-            ArrayList<Animal> catArray = new(5);
-
-            //generate 5 of each cat and snake, load into an array
+            //create 2 bird lists
+            DoubleLinkedList<Bird> Bird1 = new();
+            for(int i=0; i < 5; i++)
+            {
+                Bird tempBird = RandBird(birdNames[i]); //
+                Bird1.AddLast(tempBird);
+            }
+            DoubleLinkedList<Bird> Bird2 = new();
             for (int i = 0; i < 5; i++)
             {
-                catArray.AddLast(RandCat(catNames));
+                Bird tempBird = RandBird(birdNames[i + 5]); //removed 6 birds here for ease of testing
+                Bird2.AddLast(tempBird);
             }
-            for (int i = 0; i < 5; i++)
+            //merge into bird1
+            Bird1.Merge(Bird2);
+
+            //print forward and back
+            Console.WriteLine("Print Forward");
+            Bird1.PrintAllForward();
+            Console.WriteLine("Print Reverse");
+            Bird1.PrintAllReverse();
+
+
+
+            Console.WriteLine("\n\n\n\n\n\n\n\n");
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("WELCOME TO THE SIMULATION");
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("\n\n");
+
+            int roundnum = 0;
+            while (Bird1.count != 0) //continue until bird list is empty
             {
-                snakeArray.AddLast(RandSnake(snakeNames));
+                Console.WriteLine("Round {0}", roundnum);
+
+                //birds/snakes movement and eating
+                for(int i = 0;  i < snakecatArray.GetCount(); i++)
+                {
+                    //find closest bird and find its distance
+                    Bird closestBird = Bird1.FindClosest(snakecatArray.array[i].Pos);
+                    double distancefromclosestbird = Bird1.FindDistance(snakecatArray.array[i].Pos, closestBird);
+
+                    //if the closest bird is in range of the snake/cat
+                    if(distancefromclosestbird < snakecatArray.array[i].Range)
+                    {
+                        snakecatArray.array[i].Eat(closestBird);   //prints eating
+                        Bird1.GetEaten(closestBird);   //removes bird from the list
+                    }
+                    else    //no birds in range
+                    {
+                        //see paper written equation on the word doc associated with this assignment. 
+                        //it has an example of this math below
+
+                        //distance x and distance y
+                        double dx = closestBird.Pos.X - snakecatArray.array[i].Pos.X;
+                        double dy = closestBird.Pos.Y - snakecatArray.array[i].Pos.Y;
+
+                        double xyDistance = Math.Sqrt(dx * dx + dy * dy);   //only xy distance from bird linearly
+
+                        double block;  //each block of distance to move, also could be seen as steps
+
+
+                        if(dx+dy == 0)  //avoid dividebyzero
+                        {
+                            block = 0;
+                        }
+                        //if the distance is less than the speed. Here so that the animal wont move past the bird
+                        else if (xyDistance < snakecatArray.array[i].Speed)
+                            block = xyDistance / (dx + dy);
+                        else
+                            block = snakecatArray.array[i].Speed / (dx + dy);
+
+                        //move one block for each change in x and y
+                        double moveX = block * dx;
+                        double moveY = block * dy;
+
+                        snakecatArray.array[i].Move(moveX,moveY);   //move towards bird
+                    }
+                }
+
+                //move all birds randomly
+                Node currentBird = Bird1.head;
+                while(currentBird != Bird1.tail)
+                {
+                    Bird currentBirdBird = (Bird)currentBird.data;
+
+                    currentBirdBird.Move();
+
+                    currentBird = currentBird.next;
+                }
+                roundnum++;
+
+                Console.WriteLine("Birds\n");
+                Bird1.PrintAllForward();
+                Console.WriteLine("Snakes and cats\n");
+                Console.WriteLine(snakecatArray.PrintAllForward());
+
+
+                Console.Read(); //to pause until next round
             }
 
-            snakeArray.InPlaceSort();
-            catArray.InPlaceSort();
-
-
-
-
-
-            //Console.WriteLine("snake array with 5 objects sorted: \n{0}", snakeArray.PrintAllForward());
-            //Console.WriteLine("cat array with 5 objects sorted: \n{0}", catArray.PrintAllForward());
-
-            //snakeArray.DeleteAll();
-            //catArray.DeleteAll();
-
-            //Console.WriteLine("snake array after DeleteAll: \n{0}", snakeArray.PrintAllForward());
-            //Console.WriteLine("cat array after DeleteAll: \n{0}", catArray.PrintAllForward());
-
-            //Console.WriteLine("\n\nTest on an empty array");
-            //ArrayList<Animal> snakeArray2 = new(5);
-            //ArrayList<Animal> catArray2 = new(5);
-
-            //snakeArray.DeleteAll();
-            //catArray.DeleteAll();
-
-
-            //ArrayList<Animal> catsAndSnakesArray = ArrayList<Animal>.ArrayListMerge(snakeArray, catArray);
-
-            //Console.WriteLine("merged array: \n{0}", catsAndSnakesArray.PrintAllForward());
-
-            //Console.WriteLine("\nShowing that both old arrays still exist");
-            //Console.WriteLine("snake array: \n{0}", snakeArray.PrintAllForward());
-            //Console.WriteLine("cat array: \n{0}", catArray.PrintAllForward());
-
-            //Console.WriteLine("\nShowing the delete overload");
-            //ArrayList<Animal> catsAndSnakesArray2 = ArrayList<Animal>.ArrayListMerge(snakeArray, catArray, true);
-
-            //Console.WriteLine("merged array: \n{0}", catsAndSnakesArray.PrintAllForward());
-
-            //Console.WriteLine("snake array: \n{0}", snakeArray.PrintAllForward());
-            //Console.WriteLine("cat array: \n{0}", catArray.PrintAllForward());
-
-
-
-            //Console.WriteLine("\n\nA test to see if it will stop swaps on an empty array");
-            //ArrayList<Animal> snakeArray2 = new(5);
-            //ArrayList<Animal> catArray2 = new(5);
-            //snakeArray2.RotateLeft();
-            //catArray2.RotateLeft();
-            //snakeArray2.RotateRight();
-            //catArray2.RotateRight();
-
-
-            //Console.WriteLine("\n\nA test to see if it will stop indicies from outside of the array");
-            //Console.WriteLine("below 0 test");
-            //snakeArray.Swap(-1, 4);
-            //catArray.Swap(-1, 4);
-            //Console.WriteLine("above size of array test");
-            //snakeArray.Swap(1, 40);
-            //catArray.Swap(1, 40);
-            //Console.WriteLine("\nShowing that the swaps were terminated");
-            //Console.WriteLine("snake array with 5 objects sorted: \n{0}", snakeArray.PrintAllForward());
-            //Console.WriteLine("cat array with 5 objects sorted: \n{0}", catArray.PrintAllForward());
-
-            /*
-            Console.WriteLine(catArray.PrintAllForward());
-            Console.WriteLine(snakeArray.PrintAllForward());
-            Console.WriteLine(snakeArray.PrintAllReverse());
-
-            ArrayList<BadGuys> catsnakearray = ArrayList<BadGuys>.ArrayListMerge(catArray, snakeArray, true);
-
-            Console.WriteLine(catsnakearray.PrintAllForward());
-
-            catsnakearray.InPlaceSort();
-
-            Console.WriteLine(catsnakearray.PrintAllForward());
-
-            catsnakearray.RotateRight();
-
-            Console.WriteLine("Rotated right \n {0}",catsnakearray.PrintAllForward());
-
-            catsnakearray.RotateLeft();
-
-            Console.WriteLine("Rotated left \n {0}",catsnakearray.PrintAllForward());
-
-            catsnakearray.DeleteFirst();
-
-            Console.WriteLine("Rotated left \n {0}", catsnakearray.PrintAllForward());
-           
-            LinkedList<Snake> snakelist = new LinkedList<Snake>(snakeArray);
-            LinkedList<Cat> catlist = new LinkedList<Cat>(catArray);
-
-            //print all
-            Console.WriteLine("Snake Array:");
-            foreach (Snake i in snakeArray)
-            {
-                Console.WriteLine(i);
-            }
-            Console.WriteLine("\nCat Array:");
-            foreach (Cat i in catArray)
-            {
-                Console.WriteLine(i);
-            }
-            Console.WriteLine("\nSnake Linked List:");
-            foreach (Snake i in snakelist)
-            {
-                Console.WriteLine(i);
-            }
-            Console.WriteLine("\nCat Linked List:");
-            foreach (Cat i in catlist)
-            {
-                Console.WriteLine(i);
-            }
-            */
-
-
-            /*TESTING SECTION*/
-            /*
-            //testing for position setting
-            Console.WriteLine("\n\nTesting postion class....");
-            Console.WriteLine("Testing 0 arg constructor");
-            Position testPos0 = new Position();
-            Console.WriteLine("testPos0: {0} .... 0 arg constructor .... Value should be 0, 0, 0", testPos0);
-            Console.WriteLine("Testing 3 arg constructor.....");
-            Position testPos1 = new Position(1, 2, 3);
-            Console.WriteLine("testPos1: {0} .... Value set to 1,2,3 .... Value should be 1, 2, 3", testPos1);
-            Console.WriteLine("Testing Below 0 Clamping.....");
-            Position testPos2 = new Position(-5.8, -5.5, -1.4);
-            Console.WriteLine("testPos2: {0} .... Value set to -5.8, -5.5, -1.4 .... Value should be 0, 0, 0", testPos2);
-            Position testPos3 = new Position(17.3, 100, 76);
-            Console.WriteLine("Testing above 10 Clamping....");
-            Console.WriteLine("testPos3: {0} .... Value set to 17.3, 100, 76 .... Value should be 10, 10, 10", testPos3);
-
-            //testing for Positon.Move
-            Console.WriteLine("\nTesting basic movement....");
-            testPos0.Move(1, 1, 1);
-            Console.WriteLine("testPos0: {0} .... move 1 in each direction .... Value should be 1, 1, 1", testPos0);
-            testPos0.Move(3, 3, 3);
-            Console.WriteLine("testPos0: {0} .... move 3 in each direction .... Value should be 4, 4, 4", testPos0);
-            Console.WriteLine("Testing Above 10 clamping....");
-            testPos0.Move(-3, -3, -3);
-            Console.WriteLine("testPos0: {0} .... move -3 in each direction .... Value should be 1, 1, 1", testPos0);
-            Console.WriteLine("Testing Above 10 clamping....");
-            testPos1.Move(100, 100, 100);
-            Console.WriteLine("testPos1: {0} .... move 100 in each direction .... Value should be 10, 10, 10", testPos1);
-            Console.WriteLine("Testing Below 0 clamping....");
-            testPos2.Move(-100, -100, -100);
-            Console.WriteLine("testPos2: {0} .... move -100 in each direction .... Value should be 0, 0, 0", testPos2);
-
-            //testing moving of the cats
-            Console.WriteLine("\nCat.Move() Testing...");
-            catArray[0].Move(-100, -100, -100);
-            Console.WriteLine("CatArray[0]: {0} .... move -100 in each direction .... Value should be 0, 0, 0", catArray[0]);
-            catArray[0].Move(+100, +100, +100);
-            Console.WriteLine("CatArray[0]: {0} .... move +100 in each direction .... Value should be 10, 10, 10", catArray[0]);
-            catArray[0].Move(-3, -2, -1);
-            Console.WriteLine("CatArray[0]: {0} .... move -3x, -2y, -1z .... Value should be 7, 8, 9", catArray[0]);
-            catArray[0].Move(1, 1, 1);
-            Console.WriteLine("CatArray[0]: {0} .... move +1 in each direction .... Value should be 8, 9, 10", catArray[0]);
-
-            //testing moving of the snake
-            Console.WriteLine("\nSnake.Move() Testing...");
-            snakeArray[0].Move(-100, -100, -100);
-            Console.WriteLine("SnakeArray[0]: {0} .... move -100 in each direction .... Value should be 0, 0, 0", snakeArray[0]);
-            snakeArray[0].Move(+100, +100, +100);
-            Console.WriteLine("SnakeArray[0]: {0} .... move +100 in each direction .... Value should be 10, 10, 10", snakeArray[0]);
-            snakeArray[0].Move(-3, -2, -1);
-            Console.WriteLine("SnakeArray[0]: {0} .... move -3x, -2y, -1z .... Value should be 7, 8, 9", snakeArray[0]);
-            snakeArray[0].Move(1, 1, 1);
-            Console.WriteLine("SnakeArray[0]: {0} .... move +1 in each direction .... Value should be 8, 9, 10", snakeArray[0]);
-            */
+            Console.WriteLine("This Simulation took {0} rounds for all of the birds to be eaten..", roundnum);
         }
 
         /// <summary>
@@ -227,9 +155,8 @@ namespace Assignment2
         {
             Random rnd = new Random();
 
-            double x = RandPos(), y = RandPos(), z = RandPos(); //set positions
             bool venomous = rnd.Next(2) == 0; //set venomous
-            Snake randomSnake = new Snake(snakeNames[rnd.Next(35)], rnd.Next(100), rnd.Next(100), x, y, z, rnd.Next(10), venomous);
+            Snake randomSnake = new Snake(snakeNames[rnd.Next(35)], rnd.Next(100), rnd.Next(100), true, rnd.Next(10), venomous);
 
             return randomSnake;
         }
@@ -243,15 +170,41 @@ namespace Assignment2
         {
             Random rnd = new Random();
 
-            double x = RandPos(), y = RandPos(), z = RandPos(); //set positions
             int breed = rnd.Next(6);
-            Cat randomCat = new Cat(catNames[rnd.Next(100)], rnd.Next(100), rnd.Next(100), x, y, z, breed);
+            Cat randomCat = new Cat(catNames[rnd.Next(100)], rnd.Next(100), rnd.Next(100), true, breed);
 
             return randomCat;
         }
 
         /// <summary>
-        /// returns a random floating point number, between 0 and 10.
+        /// generates a random bird. Just needs the name array passed from main.
+        /// </summary>
+        /// <returns></returns>
+        static Bird RandBird(string[] birdNames)
+        {
+            Random rnd = new Random();
+
+            Bird randomBird = new Bird(birdNames[rnd.Next(10)], rnd.Next(100), rnd.Next(100), true);
+
+            return randomBird;
+        }
+
+        /// <summary>
+        /// generates a random bird. Just needs the namepassed from main.
+        /// //differs from RandBird in that it only wants the string not the array.
+        /// </summary>
+        /// <returns></returns>
+        static Bird RandBird(string birdName)
+        {
+            Random rnd = new Random();
+
+            Bird randomBird = new Bird(birdName, rnd.Next(100), rnd.Next(100), true);
+
+            return randomBird;
+        }
+
+        /// <summary>
+        /// returns a random floating point number, between 5 and 10.
         /// Should be used when setting positons for snakes/cats/animals etc
         /// </summary>
         /// <returns>a double between 0 and 10</returns>

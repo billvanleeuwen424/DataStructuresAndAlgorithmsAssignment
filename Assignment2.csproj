@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Compile Remove="ArrayList.cs" />
+    <Compile Remove="BadGuys.cs" />
     <Compile Remove="Node.cs" />
     <Compile Remove="UNUSEDLINKEDLIST.cs" />
   </ItemGroup>

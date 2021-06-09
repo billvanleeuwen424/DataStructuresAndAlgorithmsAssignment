@@ -163,6 +163,31 @@ namespace Assignment2
         }
 
 
+        /// <summary>
+        /// Static method to give animals their starting positions.
+        /// gives different positions depending on the type of animal
+        /// </summary>
+        /// <param name="tempAnimal"></param>
+        /// <returns></returns>
+        public static Position StartingPostion(Animal tempAnimal)
+        {
+            Position pos = new Position();
+            Random rand = new Random();
+
+
+            int maxstart = tempAnimal.maxStartXY;
+            int maxheight = tempAnimal.maxHeightZ;
+
+            //random gen description
+            //generate random number between 0 and 1, multiply by two and -1 // this generates a random double between -1 and 1
+            //multiply that by a random number between 0 and its maximum start location
+            pos.x = ((rand.NextDouble() * 2 - 1) * rand.Next(0,maxstart));
+            pos.y = ((rand.NextDouble() * 2 - 1) * rand.Next(0, maxstart));
+            pos.z = ((rand.NextDouble() * 2 - 1) * rand.Next(0, maxheight));    //if temp animal does not fly, its max height is zero, thus z = 0
+
+            return pos;
+        }
+
         //basic ToString
         public override string ToString()
         {

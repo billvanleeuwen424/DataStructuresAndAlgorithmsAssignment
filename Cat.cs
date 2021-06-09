@@ -13,11 +13,12 @@ namespace Assignment2
     /// 
     /// adds: breed
     /// </summary>
-    public class Cat : BadGuys
+    public class Cat : Animal
     {
 
         //overridden speed from animal class
-        private new int speed = 8;
+        private new readonly int speed = 8;
+        private new readonly int range = 8;
 
         public BreedEnum breed;
 
@@ -39,6 +40,15 @@ namespace Assignment2
                     breed = value;
             }
 
+        }
+        public new int Range
+        {
+            get { return range; }
+        }
+
+        public new int Speed
+        {
+            get { return speed; }
         }
 
         public Cat()
@@ -104,16 +114,31 @@ namespace Assignment2
         }
 
         /// <summary>
-        /// dz is defaulted zero because cats cant use z
+        /// full constructor using the static positon generator. if false, position will default to zero
         /// </summary>
-        /// <param name="dx"></param>
-        /// <param name="dy"></param>
-        /// <param name="dz"></param>
-        public override void Move(double dx, double dy, double dz = 0)
+        /// <param name="name"></param>
+        /// <param name="age"></param>
+        /// <param name="id"></param>
+        /// <param name="generatepos"></param>
+        /// <param name="breed"></param>
+        public Cat(string name, double age, int id, bool generatepos, int breed)
         {
-            pos.Move(dx, dy, dz);
-        }
+            this.age = age;
+            this.id = id;
+            this.name = name;
+            Breed = (BreedEnum)breed;
 
+            if (generatepos)
+            {
+                pos = Position.StartingPostion(this);
+            }
+            else
+            {
+                pos.X = 0;
+                pos.Y = 0;
+                pos.Z = 0;
+            }
+        }
 
         public override string ToString()
         {

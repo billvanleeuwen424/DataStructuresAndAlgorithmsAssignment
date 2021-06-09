@@ -11,14 +11,24 @@ namespace Assignment2
     /// 
     /// adds: double length and boolean venomous
     /// </summary>
-    public class Snake : BadGuys
+    public class Snake : Animal
     {
         private double length;
         private bool venomous;
 
         //overridden speed from animal class
-        private new int speed = 5;
+        private new readonly int speed = 5;
+        private new readonly int range = 3;
 
+        public new int Speed
+        {
+            get { return speed; }
+        }
+
+        public new int Range
+        {
+            get { return range;  } 
+        }
         public double Length
         {
             get { return length; }
@@ -121,14 +131,32 @@ namespace Assignment2
         }
 
         /// <summary>
-        /// dz is defaulted zero because snakes cant use z
+        /// full constructor using the static positon generator. if false, position will default to zero
         /// </summary>
-        /// <param name="dx"></param>
-        /// <param name="dy"></param>
-        /// <param name="dz"></param>
-        public override void Move(double dx, double dy, double dz = 0)
+        /// <param name="name"></param>
+        /// <param name="age"></param>
+        /// <param name="id"></param>
+        /// <param name="generatepos"></param>
+        /// <param name="length"></param>
+        /// <param name="venom"></param>
+        public Snake(string name, double age, int id, bool generatepos, double length, bool venom)
         {
-            pos.Move(dx, dy, dz);
+            this.age = age;
+            this.id = id;
+            this.name = name;
+            Length = length;
+            Venomous = venom;
+
+            if (generatepos)
+            {
+                pos = Position.StartingPostion(this);
+            }
+            else
+            {
+                pos.X = 0;
+                pos.Y = 0;
+                pos.Z = 0;
+            }
         }
 
         public override string ToString()

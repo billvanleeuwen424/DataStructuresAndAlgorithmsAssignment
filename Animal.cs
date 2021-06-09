@@ -18,15 +18,26 @@ namespace Assignment2
     /// methods:
     /// ToString()
     /// </summary>
-    public abstract class Animal :IComparable
+    public abstract class Animal : IComparable
     {
+        
+        
+        public readonly int maxStartXY = 20;  //maximum starting position as per assignment guidelines
+        public readonly int maxHeightZ = 0;
+
+
         protected Position pos = new();
         protected int id;
         protected string name;
         protected double age;
 
-        protected static int speed = 5;
+        protected int speed = 5;
+        protected int range = 5;
 
+        public int Range
+        {
+            get { return range; }
+        }
 
         /// <summary>
         /// Compares animals by name
@@ -40,7 +51,7 @@ namespace Assignment2
                 return 1;
 
             Animal otherAnimal = obj as Animal;
-            if (otherAnimal != null)
+            if (otherAnimal.name != null)
                 return this.name.CompareTo(otherAnimal.name);
             else
                 throw new ArgumentException("Something messed up the in the animal comparrison!!!!!!!!!!!!!");
@@ -55,6 +66,7 @@ namespace Assignment2
                 id = value;
             }
         }
+
         public string Name
         {
             get { return name; }
@@ -63,6 +75,7 @@ namespace Assignment2
                 name = value;
             }
         }
+
         public double Age
         {
             get { return age; }
@@ -82,6 +95,11 @@ namespace Assignment2
 
             set
             {; }
+        }
+
+        public int Speed
+        {
+            get { return speed; }
         }
 
         public Animal()
@@ -122,16 +140,53 @@ namespace Assignment2
             pos.Z = zpos;
         }
 
+        /// <summary>
+        /// full constructor using the static positon generator. if false, position will default to zero
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="age"></param>
+        /// <param name="id"></param>
+        /// <param name="generatepos"></param>
+        public Animal(string name, double age, int id, bool generatepos)
+        {
+            this.age = age;
+            this.id = id;
+            this.name = name;
 
+            if (generatepos)
+            {
+                pos = Position.StartingPostion(this);
+            }
+            else
+            {
+                pos.X = 0;
+                pos.Y = 0;
+                pos.Z = 0;
+            }
+
+        }
 
         /// <summary>
-        /// passes the movement up to the Position class
+        /// bird was eaten
+        /// </summary>
+        /// <param name="eatenBird"></param>
+        public void Eat(Animal eatenAnimal)
+        {
+            Console.WriteLine("{0} is being eaten by {1}", eatenAnimal.Name, this.ToString());
+        }
+
+        /// <summary>
+        /// passes the movement up to the Position class, default dz for non flying animals
         /// </summary>
         /// <param name="dx">change in x</param>
         /// <param name="dy">change in y</param>
         /// <param name="dz">change in z</param>
-        public abstract void Move(double dx, double dy, double dz = 0);
-
+        public void Move(double dx, double dy, double dz = 0)
+        {
+            this.Pos.X += dx;
+            this.Pos.Y += dy;
+            this.Pos.Z += dz;
+        }
 
         public override string ToString()
         {
