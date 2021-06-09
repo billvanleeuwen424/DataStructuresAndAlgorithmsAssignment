@@ -33,8 +33,13 @@ namespace Assignment2
         //creates a new array double the size of the previous and injects each item in its original order into it.
         private void Grow()
         {
+            T[] newarray; 
 
-            T[] newarray = new T[array.Length * 2];
+            //check if array is empty or not, if it is, give it size 2;
+            if (array.Length == 0)
+                newarray = new T[2];
+            else
+                newarray = new T[array.Length * 2];
 
             for (int i = 0; i < array.Length; i++)
             {

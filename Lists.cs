@@ -183,6 +183,13 @@ namespace Assignment2
             {
                 Console.WriteLine("This list has no nodes to delete...");
             }
+            else if (tail == head)//last item on list
+            {
+                Node toDelete = head;
+                toDelete = null;
+                head = null;
+                tail = null;
+            }
             else
             {
                 Node toDelete = tail;
@@ -201,6 +208,13 @@ namespace Assignment2
             if (head == null)
             {
                 Console.WriteLine("This list has no nodes to delete...");
+            }
+            else if (tail == head)//last item on list
+            {
+                Node toDelete = head;
+                toDelete = null;
+                head = null;
+                tail = null;
             }
             else
             {
@@ -338,11 +352,11 @@ namespace Assignment2
             object closest=0;
             try
             {
-                while (current.next != null)
+                while (current != null)
                 {
 
-                    Animal tempAnimal = (Animal)current.data;
-                    gridDistance = ((tempAnimal.Pos.X - pos.X)+ (tempAnimal.Pos.Y - pos.Y) + (tempAnimal.Pos.Z - pos.Z));
+                    Animal tempAnimal = (Animal)current.data;   //this is the bird
+                    gridDistance = Math.Sqrt(Math.Pow(pos.X - tempAnimal.Pos.X,2) + Math.Pow(pos.Y - tempAnimal.Pos.Y,2) + Math.Pow(pos.Z - tempAnimal.Pos.Z,2));
                     if (gridDistance < closestGridDistance)
                     {
                         closestGridDistance = gridDistance;
@@ -358,6 +372,8 @@ namespace Assignment2
                 Console.WriteLine("Debugging only. probably tried to cast something to an animal that wouldnt work....");
             }
             return (T)closest;
+
+            
         }
 
         //O(1) 
@@ -370,7 +386,7 @@ namespace Assignment2
             {
                 Animal tempAnimal = (Animal)findDistanceAnimal;
 
-                distance = Math.Sqrt(Math.Pow(pos.X + tempAnimal.Pos.X, 2) + Math.Pow(pos.Y + tempAnimal.Pos.Y, 2) + Math.Pow(pos.Z + tempAnimal.Pos.Z, 2));
+                distance = Math.Sqrt(Math.Pow(pos.X - tempAnimal.Pos.X, 2) + Math.Pow(pos.Y - tempAnimal.Pos.Y, 2) + Math.Pow(pos.Z - tempAnimal.Pos.Z, 2));
             }
             catch (Exception e) //if an exception is thrown, it will probably be casting the object to animal
             {

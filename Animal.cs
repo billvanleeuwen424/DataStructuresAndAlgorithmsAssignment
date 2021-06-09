@@ -31,6 +31,10 @@ namespace Assignment2
         protected string name;
         protected double age;
 
+        private readonly int speed = 1;
+        private readonly int range = 1;
+
+
         /// <summary>
         /// Compares animals by name
         /// Reference: https://docs.microsoft.com/en-us/dotnet/api/system.icomparable.compareto?view=net-5.0 
@@ -50,6 +54,16 @@ namespace Assignment2
         }
 
         //properties
+
+        public virtual int MaxStartXY
+        {
+            get { return maxStartXY; }
+        }
+        public virtual int MaxHeightZ
+        {
+            get { return maxHeightZ; }
+        }
+
         public int ID
         {
             get { return id; }
@@ -89,9 +103,14 @@ namespace Assignment2
             {; }
         }
 
-        public int Speed
+        public virtual int Speed
         {
-            get { return speed; }
+            get { return this.speed; }
+        }
+
+        public virtual int Range
+        {
+            get { return this.range; }
         }
 
         public Animal()

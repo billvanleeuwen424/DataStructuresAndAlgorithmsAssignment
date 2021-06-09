@@ -17,8 +17,8 @@ namespace Assignment2
     {
 
         //overridden speed from animal class
-        private new readonly int speed = 8;
-        private new readonly int range = 8;
+        private readonly int speed = 16;
+        private readonly int range = 8;
 
         public BreedEnum breed;
 
@@ -41,12 +41,12 @@ namespace Assignment2
             }
 
         }
-        public new int Range
+        public override int Range
         {
             get { return range; }
         }
 
-        public new int Speed
+        public override int Speed
         {
             get { return speed; }
         }

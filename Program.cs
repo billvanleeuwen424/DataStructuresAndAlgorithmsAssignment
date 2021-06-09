@@ -19,151 +19,219 @@ namespace Assignment2
             //bird names
             string[] birdNames = new string[10] {"Tweety", "Zazu", "Iago", "Hula", "Manu", "Couscous", "Roo", "Tookie", "Plucky", "Jay"};
 
+            //counters for assigning ID's
+            int numcats = 0;
+            int numbirds = 0;
+            int numsnakes = 0;
+
+
+
+
+            ArrayList <Animal> snakeArray = new(0);
+
+            Snake benny = RandSnake(snakeNames, ref numsnakes);
+
+            snakeArray.InsertBefore(benny, numsnakes);
+            
             //init arrays
-            ArrayList<Animal> snakeArray = new(3);
-            ArrayList<Animal> catArray = new(3);
+            //ArrayList<Animal> snakeArray = new(3);
+            //ArrayList<Animal> catArray = new(3);
 
-            //fill arrays
-            catArray.AddFront(RandCat(catNames));
-            snakeArray.AddLast(RandSnake(snakeNames));  //left one cat and one bird here for ease of testing
+            ////fill arrays
+            //catArray.AddFront(RandCat(catNames,  ref numcats));
+            //catArray.AddFront(RandCat(catNames,  ref numcats));
+            //catArray.AddFront(RandCat(catNames,  ref numcats));
+            //snakeArray.AddLast(RandSnake(snakeNames, ref numsnakes));
+            //snakeArray.AddLast(RandSnake(snakeNames, ref numsnakes));
+            //snakeArray.AddLast(RandSnake(snakeNames, ref numsnakes));
 
-            //merge both and sort it
-            ArrayList<Animal> snakecatArray = ArrayList<Animal>.ArrayListMerge(snakeArray, catArray);
-            snakecatArray.InPlaceSort();
+            ////merge both and sort it
+            //ArrayList<Animal> snakecatArray = ArrayList<Animal>.ArrayListMerge(snakeArray, catArray);
+            //snakecatArray.InPlaceSort();
 
-            //print merged array
+            ////print merged array
             //Console.WriteLine("Print Forward");
             //Console.WriteLine(snakecatArray.PrintAllForward());
             //Console.WriteLine("Print Reverse");
             //Console.WriteLine(snakecatArray.PrintAllReverse());
 
 
-            //create 2 bird lists
-            DoubleLinkedList<Bird> Bird1 = new();
-            for(int i=0; i < 1; i++)
-            {
-                Bird tempBird = RandBird(birdNames[i]); //
-                Bird1.AddLast(tempBird);
-            }
-            DoubleLinkedList<Bird> Bird2 = new();
-            for (int i = 0; i < 1; i++)
-            {
-                Bird tempBird = RandBird(birdNames[i + 5]); //removed 8 birds here for ease of testing
-                Bird2.AddLast(tempBird);
-            }
-            //merge into bird1
-            Bird1.Merge(Bird2);
+            ////create 2 bird lists
+            //DoubleLinkedList<Bird> Birdlist1 = new();
+            //for(int i=0; i < 5; i++)
+            //{
+            //    Bird tempBird = RandBird(birdNames[i], ref numbirds); 
+            //    Birdlist1.AddLast(tempBird);
+            //}
+            //DoubleLinkedList<Bird> Birdlist2 = new();
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    Bird tempBird = RandBird(birdNames[i + 5], ref numbirds);
+            //    Birdlist2.AddLast(tempBird);
+            //}
+            ////merge into birdlist1
+            //Birdlist1.Merge(Birdlist2);
 
             ////print forward and back
             //Console.WriteLine("Print Forward");
-            //Bird1.PrintAllForward();
+            //Birdlist1.PrintAllForward();
             //Console.WriteLine("Print Reverse");
-            //Bird1.PrintAllReverse();
+            //Birdlist1.PrintAllReverse();
+
+            //Console.WriteLine("\n\n\n\n\n\n\n\n");
+            //Console.WriteLine("---------------------------------------------");
+            //Console.WriteLine("WELCOME TO THE SIMULATION");
+            //Console.WriteLine("---------------------------------------------");
+            //Console.WriteLine("\n\n");
+
+            //Console.WriteLine("Before Start.");
+            //Console.WriteLine("\nBirds");
+            //Birdlist1.PrintAllForward();
+            //Console.WriteLine("\nSnakes and cats");
+            //Console.WriteLine(snakecatArray.PrintAllForward());
+
+            //int roundnum = 1;
+            //while (Birdlist1.head != null) //continue until bird list is empty
+            //{
+            //    Console.WriteLine("Round {0}", roundnum);
+
+            //    //birds/snakes movement and eating
+            //    for(int i = 0;  i < snakecatArray.GetCount(); i++)
+            //    {
+            //        //check to make sure the list was not emptied by an earlier animal
+            //        if (Birdlist1.head != null)
+            //        {
+            //            //find closest bird and find its distance
+            //            Bird closestBird = Birdlist1.FindClosest(snakecatArray.array[i].Pos);
+            //            double distancefromclosestbird = Birdlist1.FindDistance(snakecatArray.array[i].Pos, closestBird);
+
+            //            //if the closest bird is in range of the snake/cat
+            //            if (distancefromclosestbird < snakecatArray.array[i].Range)
+            //            {
+            //                snakecatArray.array[i].Eat(closestBird);   //prints eating
+            //                Birdlist1.GetEaten(closestBird);   //removes bird from the list
+            //            }
+            //            else    //no birds in range
+            //            {
+            //                //see paper written equation on the word doc associated with this assignment. 
+            //                //it has an example of this math below
+
+            //                //distance x and distance y
+            //                double dx = closestBird.Pos.X - snakecatArray.array[i].Pos.X;
+            //                double dy = closestBird.Pos.Y - snakecatArray.array[i].Pos.Y;
+
+            //                double xyDistance = Math.Sqrt(dx * dx + dy * dy);   //only xy distance from bird linearly
+
+            //                double block;  //each block of distance to move, also could be seen as steps
 
 
-            //debugging section***************************************************
+            //                if (dx + dy == 0)  //avoid dividebyzero
+            //                {
+            //                    block = 0;
+            //                }
+            //                //if the distance is less than the speed. Here so that the animal wont move past the bird
+            //                else if (xyDistance < snakecatArray.array[i].Speed)
+            //                    block = xyDistance / (dx + dy);
+            //                else
+            //                    block = snakecatArray.array[i].Speed / (dx + dy);
 
-            Bird bird1 = (Bird)Bird1.head.data;
-            Bird bird2 = (Bird)Bird1.tail.data;
+            //                block = Math.Abs(block);    //get the absoloute value of the block size. This was implemented when i noticed animals wouldnt move negative at times
 
-            Animal badguy1 = snakecatArray.array[0];
-            Animal badguy2 = snakecatArray.array[1];
+            //                //move one block for each change in x and y
+            //                double moveX = block * dx;
+            //                double moveY = block * dy;
 
-            //put animals in basic ass positions to see where they go
-            bird1.Pos.X = 0;
-            bird1.Pos.Y = 0;
-            bird1.Pos.Z = 0;
-            bird2.Pos.X = 0;
-            bird2.Pos.Y = 0;
-            bird2.Pos.Z = 0;
-            badguy1.Pos.X = 100;
-            badguy1.Pos.Y = 100;
-            badguy2.Pos.X = 100;
-            badguy2.Pos.Y = 100;
+            //                snakecatArray.array[i].Move(moveX, moveY);   //move towards bird
+            //            }
+            //        }
+            //    }
 
+            //    //move all birds randomly
+            //    Node currentBird = Birdlist1.head;
+            //    while(currentBird != null)
+            //    {
+            //        Bird currentBirdBird = (Bird)currentBird.data;
 
+            //        currentBirdBird.Move();
 
+            //        currentBird = currentBird.next;
+            //    }
+            //    roundnum++;
 
-            Console.WriteLine("\n\n\n\n\n\n\n\n");
-            Console.WriteLine("---------------------------------------------");
-            Console.WriteLine("WELCOME TO THE SIMULATION");
-            Console.WriteLine("---------------------------------------------");
-            Console.WriteLine("\n\n");
+            //    Console.WriteLine("\nBirds");
+            //    Birdlist1.PrintAllForward();
+            //    Console.WriteLine("\nSnakes and cats");
+            //    Console.WriteLine(snakecatArray.PrintAllForward());
 
-            int roundnum = 0;
-            while (Bird1.count != 0) //continue until bird list is empty
-            {
-                Console.WriteLine("Round {0}", roundnum);
+            //    Console.ReadLine();
+            //}
 
-                //birds/snakes movement and eating
-                for(int i = 0;  i < snakecatArray.GetCount(); i++)
-                {
-                    Animal eaterAnimal = snakecatArray.array[i];
+            //Console.WriteLine("This Simulation took {0} rounds for all of the birds to be eaten..", roundnum);
+        }
 
-                    //find closest bird and find its distance
-                    Bird closestBird = Bird1.FindClosest(eaterAnimal.Pos);
-                    double distancefromclosestbird = Bird1.FindDistance(eaterAnimal.Pos, closestBird);
+        /// <summary>
+        /// generates a random snake. Just needs the name array passed from main.
+        /// </summary>
+        /// <param name="snakeNames"></param>
+        /// <returns></returns>
+        static Snake RandSnake(string[] snakeNames, ref int numsnakes)
+        {
+            Random rnd = new Random();
 
-                    //if the closest bird is in range of the snake/cat
-                    if(distancefromclosestbird < eaterAnimal.Range)
-                    {
-                        eaterAnimal.Eat(closestBird);   //prints eating
-                        Bird1.GetEaten(closestBird);   //removes bird from the list
-                    }
-                    else    //no birds in range
-                    {
-                        //see paper written equation on the word doc associated with this assignment. 
-                        //it has an example of this math below
+            bool venomous = rnd.Next(2) == 0; //set venomous
+            Snake randomSnake = new Snake(snakeNames[rnd.Next(35)], rnd.Next(100), numsnakes, true, rnd.Next(10), venomous);
 
-                        //distance x and distance y
-                        double dx = closestBird.Pos.X - eaterAnimal.Pos.X;
-                        double dy = closestBird.Pos.Y - eaterAnimal.Pos.Y;
+            numsnakes++;
 
-                        double xyDistance = Math.Sqrt(dx * dx + dy * dy);   //only xy distance from bird linearly
+            return randomSnake;
+        }
 
-                        double block;  //each block of distance to move, also could be seen as steps
+        /// <summary>
+        /// generates a random cat. Just needs the name array passed from main.
+        /// </summary>
+        /// <param name="catNames"></param>
+        /// <returns></returns>
+        static Cat RandCat(string[] catNames, ref int numcats)
+        {
+            Random rnd = new Random();
 
+            int breed = rnd.Next(6);
+            Cat randomCat = new Cat(catNames[rnd.Next(100)], rnd.Next(100), numcats, true, breed);
 
-                        if(dx+dy == 0)  //avoid dividebyzero
-                        {
-                            block = 0;
-                        }
-                        //if the distance is less than the speed. Here so that the animal wont move past the bird
-                        else if (xyDistance < eaterAnimal.Speed)
-                            block = xyDistance / (dx + dy);
-                        else
-                            block = eaterAnimal.Speed / (dx + dy);
+            numcats++;
 
-                        //move one block for each change in x and y
-                        double moveX = block * dx;
-                        double moveY = block * dy;
+            return randomCat;
+        }
 
-                        eaterAnimal.Move(moveX,moveY);   //move towards bird
-                    }
-                }
+        /// <summary>
+        /// generates a random bird. Just needs the name array passed from main. and the number of birds for the ID
+        /// </summary>
+        /// <returns></returns>
+        static Bird RandBird(string[] birdNames, ref int numbirds)
+        {
+            Random rnd = new Random();
 
-                //move all birds randomly
-                Node currentBird = Bird1.head;
-                while(currentBird != Bird1.tail)
-                {
-                    Bird currentBirdBird = (Bird)currentBird.data;
+            Bird randomBird = new Bird(birdNames[rnd.Next(10)], rnd.Next(100), numbirds, true);
 
-                    currentBirdBird.Move();
+            numbirds++;
 
-                    currentBird = currentBird.next;
-                }
-                roundnum++;
+            return randomBird;
+        }
 
-                Console.WriteLine("Birds\n");
-                Bird1.PrintAllForward();
-                Console.WriteLine("Snakes and cats\n");
-                Console.WriteLine(snakecatArray.PrintAllForward());
+        /// <summary>
+        /// generates a random bird. Just needs the namepassed from main. and the number of birds for the ID
+        /// //differs from RandBird in that it only wants the string not the array.
+        /// </summary>
+        /// <returns></returns>
+        static Bird RandBird(string birdName, ref int numbirds)
+        {
+            Random rnd = new Random();
 
+            Bird randomBird = new Bird(birdName, rnd.Next(100), numbirds, true);
 
-                Console.Read(); //to pause until next round
-            }
+            numbirds++;
 
-            Console.WriteLine("This Simulation took {0} rounds for all of the birds to be eaten..", roundnum);
+            return randomBird;
         }
 
         /// <summary>

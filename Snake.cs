@@ -16,16 +16,15 @@ namespace Assignment2
         private double length;
         private bool venomous;
 
-        //overridden speed from animal class
-        private new readonly int speed = 5;
-        private new readonly int range = 3;
+        private readonly int speed = 14;
+        private readonly int range = 3;
 
-        public new int Speed
+        public override int Speed
         {
             get { return speed; }
         }
 
-        public new int Range
+        public override int Range
         {
             get { return range;  } 
         }

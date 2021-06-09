@@ -175,15 +175,16 @@ namespace Assignment2
             Random rand = new Random();
 
 
-            int maxstart = tempAnimal.maxStartXY;
-            int maxheight = tempAnimal.maxHeightZ;
+            int maxstart = tempAnimal.MaxStartXY;
+            int maxheight = tempAnimal.MaxHeightZ;
 
             //random gen description
             //generate random number between 0 and 1, multiply by two and -1 // this generates a random double between -1 and 1
             //multiply that by a random number between 0 and its maximum start location
             pos.x = ((rand.NextDouble() * 2 - 1) * rand.Next(0,maxstart));
             pos.y = ((rand.NextDouble() * 2 - 1) * rand.Next(0, maxstart));
-            pos.z = ((rand.NextDouble() * 2 - 1) * rand.Next(0, maxheight));    //if temp animal does not fly, its max height is zero, thus z = 0
+            //generate z a little different. we dont want negative z values
+            pos.z = (rand.NextDouble() * rand.Next(0, maxheight));    //if temp animal does not fly, its max height is zero, thus z = 0
 
             return pos;
         }

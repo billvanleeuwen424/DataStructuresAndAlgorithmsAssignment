@@ -11,12 +11,21 @@ namespace Assignment2
         public new readonly int maxStartXY = 100;  //maximum starting position as per assignment guidelines
         public new readonly int maxHeightZ = 10;
 
-        private new int speed = 10;
-        private int zspeed = 2;
+        private readonly int speed = 10;
+        private readonly int zspeed = 2;
 
-        public new int Speed
+        public override int Speed
         {
             get { return speed; }
+        }
+
+        public override int MaxStartXY
+        {
+            get { return maxStartXY; }
+        }
+        public override int MaxHeightZ
+        {
+            get { return maxHeightZ; }
         }
 
         /// <summary>
