@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace Assignment1
+namespace Assignment2
 {
     /// <summary>
     /// subclass of animal.
@@ -15,14 +15,18 @@ namespace Assignment1
     /// </summary>
     public class Cat : Animal
     {
-    
+
+        //overridden speed from animal class
+        private readonly int speed = 16;
+        private readonly int range = 8;
+
         public BreedEnum breed;
-        
+
         //breed enumerator property
         public BreedEnum Breed
         {
             get { return breed; }
-    
+
             set
             {
                 //does not let user set breed past alloted limit
@@ -35,12 +39,21 @@ namespace Assignment1
                 else
                     breed = value;
             }
-            
+
         }
-    
+        public override int Range
+        {
+            get { return range; }
+        }
+
+        public override int Speed
+        {
+            get { return speed; }
+        }
+
         public Cat()
         {
-    
+
         }
         /// <summary>
         /// positon only constructor
@@ -54,7 +67,7 @@ namespace Assignment1
             pos.Y = ypos;
             pos.Z = zpos;
         }
-    
+
         /// <summary>
         /// All but breed. Breed is set to 1
         /// </summary>
@@ -69,14 +82,14 @@ namespace Assignment1
             this.age = age;
             this.id = id;
             this.name = name;
-    
+
             pos.X = xpos;
             pos.Y = ypos;
             pos.Z = zpos;
-    
+
             Breed = (BreedEnum)1;
         }
-    
+
         /// <summary>
         /// full constructor
         /// </summary>
@@ -92,21 +105,48 @@ namespace Assignment1
             this.age = age;
             this.id = id;
             this.name = name;
-    
+
             pos.X = xpos;
             pos.Y = ypos;
             pos.Z = zpos;
-    
+
             Breed = (BreedEnum)breed;
         }
-    
+
+        /// <summary>
+        /// full constructor using the static positon generator. if false, position will default to zero
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="age"></param>
+        /// <param name="id"></param>
+        /// <param name="generatepos"></param>
+        /// <param name="breed"></param>
+        public Cat(string name, double age, int id, bool generatepos, int breed)
+        {
+            this.age = age;
+            this.id = id;
+            this.name = name;
+            Breed = (BreedEnum)breed;
+
+            if (generatepos)
+            {
+                pos = Position.StartingPostion(this);
+            }
+            else
+            {
+                pos.X = 0;
+                pos.Y = 0;
+                pos.Z = 0;
+            }
+        }
+
         public override string ToString()
         {
             //checks to be sure position has been given a value
             if (pos == null)
-                return (" Name: " + name + " Age: " + age + " ID: " + id + " Position: " + " N/A" + " Breed: " + Breed.GetDisplayName());
+                return " Name: " + name + " Age: " + age + " ID: " + id  +  " Breed: " + Breed.GetDisplayName() + " Position: " + " N/A";
             else
-                return ("Name: " + name + " Age: " + age + " ID: " + id + " Position: " + pos.ToString() + " Breed: " + Breed.GetDisplayName()); 
+                return "Name: " + name + " Age: " + age + " ID: " + id  + " Breed: " + Breed.GetDisplayName() + " Position: " + pos.ToString();
         }
     }
 
@@ -137,7 +177,7 @@ namespace Assignment1
                 .GetCustomAttribute<DisplayAttribute>()?
                 .GetName();
 
-            if (String.IsNullOrEmpty(displayName))
+            if (string.IsNullOrEmpty(displayName))
             {
                 displayName = enumValue.ToString();
             }

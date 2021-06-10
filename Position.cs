@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment1
+namespace Assignment2
 {
     /// <summary>
     /// a 3 dimensional position class.
-    /// allows settting from 0-10 for all x,y,z
+    /// 
     /// 
     /// constructors:
     /// 0 arg
@@ -24,6 +24,11 @@ namespace Assignment1
     {
         private double x, y, z;
 
+        //max size of the board variables.
+        private static readonly double minX = -100, minY = -100, minZ = 0;
+        private static readonly double maxX = 100, maxY = 100, maxZ = 10;
+
+
         /// <summary>
         /// x property
         /// </summary>
@@ -31,14 +36,14 @@ namespace Assignment1
         {
             get { return x; }
 
-            //only allows values between 0 and 10
-            //if too far low or high, sets to 0 or 10 respectively
+            //only allows values between minX and maxX
+            //if too far low or high, sets to minX and maxX respectively
             set
             {
-                if (value > 10.0)
-                    x = 10.0;
-                else if (value < 0)
-                    x = 0;
+                if (value > maxX)
+                    x = maxX;
+                else if (value < minX)
+                    x = minX;
                 else
                     x = value;
             }
@@ -51,14 +56,14 @@ namespace Assignment1
         {
             get { return z; }
 
-            //only allows values between 0 and 10
-            //if too far low or high, sets to 0 or 10 respectively
+            //only allows values between minZ and maxZ
+            //if too far low or high, sets to minZ and maxZ respectively
             set
             {
-                if (value > 10.0)
-                    z = 10.0;
-                else if (value < 0)
-                    z = 0;
+                if (value > maxZ)
+                    z = maxZ;
+                else if (value < minZ)
+                    z = minZ;
                 else
                     z = value;
             }
@@ -71,14 +76,14 @@ namespace Assignment1
         {
             get { return y; }
 
-            //only allows values between 0 and 10
-            //if too far low or high, sets to 0 or 10 respectively
+            //only allows values between minY and maxY
+            //if too far low or high, sets to minY and maxY respectively
             set
             {
-                if (value > 10.0)
-                    y = 10.0;
-                else if (value < 0)
-                    y = 0;
+                if (value > maxY)
+                    y = maxY;
+                else if (value < minY)
+                    y = minY;
                 else
                     y = value;
             }
@@ -102,25 +107,25 @@ namespace Assignment1
         /// <param name="Zs">z position</param>
         public Position(double Xs, double Ys, double Zs)
         {
-            //set position of charachters by dx,dy
+            //set position of charachters by Xs,Ys,Zs
             //wont allow setting larger or smaller than the board
             //passes through property also for double security
-            if (Xs > 10)
-                X = 10;
-            else if (Xs < 0)
-                X = 0;
+            if (Xs > maxX)
+                X = maxX;
+            else if (Xs < minX)
+                X = minX;
             else
                 X = Xs;
-            if (Ys > 10)
-                Y = 10;
-            else if (Ys < 0)
-                Y = 0;
+            if (Ys > maxY)
+                Y = maxY;
+            else if (Ys < minY)
+                Y = minY;
             else
                 Y = Ys;
-            if (Zs > 10)
-                Z = 10;
-            else if (Zs < 0)
-                Z = 0;
+            if (Zs > maxZ)
+                Z = maxZ;
+            else if (Zs < minZ)
+                Z = minZ;
             else
                 Z = Zs;
         }
@@ -137,27 +142,52 @@ namespace Assignment1
             //changes position of charachters by dx,dy,dz
             //wont allow movement larger or smaller than the board
             //passes through property for double security
-            if ((dx + X) > 10)
-                X = 10;
-            else if ((dx+X) < 0)
-                X = 0;
-            else 
+            if ((dx + X) > maxX)
+                X = maxX;
+            else if ((dx + X) < minX)
+                X = minX;
+            else
                 X += dx;
-            if ((dy + Y) > 10)
-                Y = 10;
-            else if ((dy + Y) < 0)
-                Y = 0;
-            else 
-                Y += dy; 
-            if ((dz + Z) > 10)
-                Z = 10;
-            else if ((dz + Z) < 0)
-                Z = 0;
-            else 
+            if ((dy + Y) > maxY)
+                Y = maxY;
+            else if ((dy + Y) < minY)
+                Y = minY;
+            else
+                Y += dy;
+            if ((dz + Z) > maxZ)
+                Z = maxZ;
+            else if ((dz + Z) < minZ)
+                Z = minZ;
+            else
                 Z += dz;
         }
 
 
+        /// <summary>
+        /// Static method to give animals their starting positions.
+        /// gives different positions depending on the type of animal
+        /// </summary>
+        /// <param name="tempAnimal"></param>
+        /// <returns></returns>
+        public static Position StartingPostion(Animal tempAnimal)
+        {
+            Position pos = new Position();
+            Random rand = new Random();
+
+
+            int maxstart = tempAnimal.MaxStartXY;
+            int maxheight = tempAnimal.MaxHeightZ;
+
+            //random gen description
+            //generate random number between 0 and 1, multiply by two and -1 // this generates a random double between -1 and 1
+            //multiply that by a random number between 0 and its maximum start location
+            pos.x = ((rand.NextDouble() * 2 - 1) * rand.Next(0,maxstart));
+            pos.y = ((rand.NextDouble() * 2 - 1) * rand.Next(0, maxstart));
+            //generate z a little different. we dont want negative z values
+            pos.z = (rand.NextDouble() * rand.Next(0, maxheight));    //if temp animal does not fly, its max height is zero, thus z = 0
+
+            return pos;
+        }
 
         //basic ToString
         public override string ToString()
