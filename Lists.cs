@@ -206,6 +206,8 @@ namespace Assignment2
             }
         }
 
+        //O(1)
+        //change pointers, cut the end element off.
         public void DeleteFirst()
         {
             if (head == null)
@@ -232,6 +234,8 @@ namespace Assignment2
             }
         }
 
+        //best case, O(1) if the node is the head or the tail, worst case O(N) where N is the positon, if the list needs to be traversed
+        //will delete the passed position node. Has checks to prevent against exceptions. Will pass to Deletefirst or Delete last if the node is head or tail
         public void DeletePosition(int position)
         {
             if (head == null)
@@ -285,38 +289,50 @@ namespace Assignment2
         //move the head node to the tail, giving the effect of rotation
         public void RotateLeft()
         {
-            Node newTail = head;
-            Node newHead = head.next;
-            Node oldTail = tail;
+            if (head == null)
+                Console.WriteLine("Cant rotate an empty list");
+            else
+            {
+                Node newTail = head;
+                Node newHead = head.next;
+                Node oldTail = tail;
 
-            newTail.previous = oldTail;
-            oldTail.next = newTail;
-            //now it is a circular list
-            tail = newTail;
-            head = newHead;
-            newHead.previous = null;
-            newTail.next = null;
-            //now it is a regular linked list, rotated one position
+                newTail.previous = oldTail;
+                oldTail.next = newTail;
+                //now it is a circular list
+                tail = newTail;
+                head = newHead;
+                newHead.previous = null;
+                newTail.next = null;
+                //now it is a regular linked list, rotated one position
+            }
+
         }
 
         //O(1)
         //move the head node to the tail, giving the effect of rotation
         public void RotateRight()
         {
-            Node newHead = tail;
-            Node oldHead = head;
-            Node newTail = tail.previous;
+            if (head == null)
+                Console.WriteLine("Cant rotate an empty list");
+            else
+            {
+                Node newHead = tail;
+                Node oldHead = head;
+                Node newTail = tail.previous;
 
-            newHead.next = oldHead;
-            oldHead.previous = newHead;
-            //now it is a circular list
+                newHead.next = oldHead;
+                oldHead.previous = newHead;
+                //now it is a circular list
 
-            tail = newTail;
-            head = newHead;
-            
-            newHead.previous = null;
-            newTail.next = null;
-            //now it is a regular linked list, rotated one position
+                tail = newTail;
+                head = newHead;
+
+                newHead.previous = null;
+                newTail.next = null;
+                //now it is a regular linked list, rotated one position
+            }
+
         }
 
 
