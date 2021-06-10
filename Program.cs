@@ -303,7 +303,7 @@ namespace Assignment2
         static string[] ReadCatNames(string[] catNames)
         {
             //enter file into filestream and streamreader
-            string path = "..\\..\\..\\..\\catnames.txt";   //this is a relative file path to the Assignment1 Folder
+            string path = "..\\..\\..\\catnames.txt";   //this is a relative file path to the Assignment2 Folder
             FileStream inFile = new FileStream(path, FileMode.Open, FileAccess.Read);
             StreamReader reader = new StreamReader(inFile);
             //set delimeter between number and catname
@@ -334,7 +334,7 @@ namespace Assignment2
         static string[] ReadSnakeNames(string[] snakeNames)
         {
             //enter file into filestream and streamreader
-            string path = "..\\..\\..\\..\\snakenames.txt";   //this is a relative file path to the Assignment1 Folder
+            string path = "..\\..\\..\\snakenames.txt";   //this is a relative file path to the Assignment2 Folder
             FileStream inFile = new FileStream(path, FileMode.Open, FileAccess.Read);
             StreamReader reader = new StreamReader(inFile);
 
