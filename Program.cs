@@ -25,14 +25,35 @@ namespace Assignment2
             int numsnakes = 0;
 
 
+            DoubleLinkedList<Bird> Birdlist1 = new();
 
+            //declare 2 birds, 10 at 100,100 and other at 25,25
+            Bird bird0 = RandBird(birdNames[0], ref numbirds);
+            Bird bird1 = RandBird(birdNames[1], ref numbirds);
+            Bird bird2 = RandBird(birdNames[2], ref numbirds);
+            bird0.Pos.X = 100;
+            bird0.Pos.Y = 100;
+            bird1.Pos.X = 25;
+            bird1.Pos.Y = 25;
+            bird2.Pos.X = -75;
+            bird2.Pos.Y = -25;
+            //add them to the list
+            Birdlist1.AddFirst(bird0);
+            Birdlist1.AddFirst(bird1);
+            Birdlist1.AddFirst(bird2);
+            Birdlist1.PrintAllForward();
 
-            ArrayList <Animal> snakeArray = new(0);
+            //make a cat, set its position to 0
+            Cat cat0 = RandCat(catNames, ref numcats);
+            cat0.Pos.X = 0;
+            cat0.Pos.Y = 0;
+            Console.Write("The closest bird should be Zazu. \nthe closest bird is:  ");
+            Console.WriteLine(Birdlist1.FindClosest(cat0.Pos).ToString());
 
-            Snake benny = RandSnake(snakeNames, ref numsnakes);
+            Console.WriteLine("\nEmpty List");
+            DoubleLinkedList<Bird> Birdlist2 = new();
 
-            snakeArray.InsertBefore(benny, numsnakes);
-            
+            Console.WriteLine(Birdlist2.FindClosest(cat0.Pos).ToString());
             //init arrays
             //ArrayList<Animal> snakeArray = new(3);
             //ArrayList<Animal> catArray = new(3);

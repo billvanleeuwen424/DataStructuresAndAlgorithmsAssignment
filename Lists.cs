@@ -145,33 +145,36 @@ namespace Assignment2
         {
             if (head == null)
                 StartList(Data);
-
-            Node toInsert = new Node();
-            toInsert.data = Data;
-
-            if (position > count)   //if position passed is larger, just pin to the end
-            {
-                AddLast(Data);
-            }
-            else if (position <= 0) //if the position is less than the list or zero, pin to the front
-            {
-                AddFirst(Data);
-            }
             else
             {
-                Node current = head;
-                for(int i = 0; i < position-1; i++)
+                Node toInsert = new Node();
+                toInsert.data = Data;
+
+                if (position > count)   //if position passed is larger, just pin to the end
                 {
-                    current = current.next;
+                    AddLast(Data);
                 }
+                else if (position <= 0) //if the position is less than the list or zero, pin to the front
+                {
+                    AddFirst(Data);
+                }
+                else
+                {
+                    Node current = head;
+                    for (int i = 0; i < position - 1; i++)
+                    {
+                        current = current.next;
+                    }
 
-                Node nextNode = current.next;
+                    Node nextNode = current.next;
 
-                current.next = toInsert;    //connect node at desired position-1 to new node
-                nextNode.previous = toInsert;   //connect node at desired position+1 to new node
-                toInsert.previous = current;    //
-                toInsert.next = nextNode;   //connect new node to both
+                    current.next = toInsert;    //connect node at desired position-1 to new node
+                    nextNode.previous = toInsert;   //connect node at desired position+1 to new node
+                    toInsert.previous = current;    //
+                    toInsert.next = nextNode;   //connect new node to both
+                }
             }
+            
             count++;
         }
 
@@ -318,10 +321,12 @@ namespace Assignment2
 
 
         //O(N) where N is the length of list2
+        //literally just inserts all the items of the second list one after another at the end of the first list
+        //deletes the second list when done
         public void Merge(DoubleLinkedList<T> list2)
         {
             Node list2node = list2.head;
-
+            
             for (int i=0; i < list2.count; i++)
             {
                 AddLast((T)list2node.data);    //count++ is contained in this method
@@ -344,36 +349,27 @@ namespace Assignment2
 
         //O(N) where N is the number of elements in the list
         //returns the closest bird to a passed position.
-        public T FindClosest(Position pos)
+        public Bird FindClosest(Position pos)
         {
             Node current = head;
 
             double gridDistance, closestGridDistance = Double.MaxValue; //assigned at an impossibly high number to reach for animal distance. board max currently is 100*100*10=100000 June 7th 2021
-            object closest=0;
-            try
-            {
-                while (current != null)
-                {
+            Bird closest = new Bird();  //creates a null bird with pos 0
 
-                    Animal tempAnimal = (Animal)current.data;   //this is the bird
-                    gridDistance = Math.Sqrt(Math.Pow(pos.X - tempAnimal.Pos.X,2) + Math.Pow(pos.Y - tempAnimal.Pos.Y,2) + Math.Pow(pos.Z - tempAnimal.Pos.Z,2));
-                    if (gridDistance < closestGridDistance)
-                    {
-                        closestGridDistance = gridDistance;
-                        closest = current.data;
-                    }
+           while (current != null)
+           {
 
-                    current = current.next;
-                }
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e + " " + e.Message); //prints exception and its message
-                Console.WriteLine("Debugging only. probably tried to cast something to an animal that wouldnt work....");
-            }
-            return (T)closest;
+               Animal tempAnimal = (Animal)current.data;   //this is the bird
+               gridDistance = Math.Sqrt(Math.Pow(pos.X - tempAnimal.Pos.X,2) + Math.Pow(pos.Y - tempAnimal.Pos.Y,2) + Math.Pow(pos.Z - tempAnimal.Pos.Z,2));
+               if (gridDistance < closestGridDistance)
+               {
+                   closestGridDistance = gridDistance;
+                   closest = (Bird)current.data;
+               }
 
-            
+               current = current.next;
+           }
+            return closest;
         }
 
         //O(1) 

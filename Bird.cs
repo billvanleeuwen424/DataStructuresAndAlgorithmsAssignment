@@ -28,6 +28,10 @@ namespace Assignment2
             get { return maxHeightZ; }
         }
 
+        public Bird()
+        {
+            
+        }
         /// <summary>
         /// full constructor using the static positon generator. if false, position will default to zero
         /// </summary>

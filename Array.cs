@@ -71,6 +71,10 @@ namespace Assignment2
         //moves each item to the right by one position, increases list size if needed, then inserts item.
         private void Insert(T data, int position)
         {
+            if(array.Length == 0)   //protect against 0 size arrays
+            {
+                Grow();
+            }
             if (next == 0) //if array is empty
             {
                 array[0] = data;
@@ -110,7 +114,6 @@ namespace Assignment2
                     array[position] = data;
                 }
             }
-
             next++;
         }
 
