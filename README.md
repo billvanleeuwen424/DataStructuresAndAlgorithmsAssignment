@@ -1,6 +1,6 @@
-# DataStructuresAndAlgorithmsAssignment
+# Snakes and Cats Simulation
 
-Designed as a "Game", we are using this code to demonstrate understanding of Data Structures.
+Designed as a "Game", we are using this code to demonstrate understanding of Data Structures, and object oriented programming.
 
 Currently, this project contains a class structure of animals (bird, snake, cat), a working Linked list, and arraylist.
 
