@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace Assignment2
 {
+
+    /// <summary>
+    /// A basic node class used for a double linkedlist
+    /// 
+    /// next, linke for the next node
+    /// data, the data of the node
+    /// previous, link for the previous node
+    /// </summary>
     public class Node
     {
         public Node next;
@@ -20,7 +28,28 @@ namespace Assignment2
         }
     }
 
-    //a doubly linked list
+    /// <summary>
+    /// A double linked list
+    /// 
+    /// 0 arg constructor that initializes count to 0
+    /// 
+    /// printforward, print reverse
+    /// 
+    /// insertAt(position), insertatrandom
+    /// addfirst, addlast
+    /// 
+    /// deletefirst, deletelast, deleteall, deleteposition
+    /// 
+    /// rotateright, rotateleft
+    /// 
+    /// startlist
+    /// 
+    /// merge
+    /// 
+    /// finddistance, findclosest, geteaten
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class DoubleLinkedList<T>
     {
         public Node head;
@@ -40,18 +69,6 @@ namespace Assignment2
             return count;
         }
 
-        //O(N) where n is the length of the list
-        //this method just generates a random position between 0 and the size of the list, then passes that position and data to the InsertAt method
-        public void InsertAtRandom(T Data)
-        {
-
-            Random rand = new Random();
-            int position = rand.Next(count);
-
-            //pass the generated position to the insert method
-            InsertAt(Data, position);   //count++ is contained in this method
-        }
-
         //O(n)
         //traverse all nodes in the list, print each to console
         public void PrintAllForward()
@@ -69,7 +86,6 @@ namespace Assignment2
                     current = current.next;
                 }//end while current is not null
             }
-            
         }
 
         //O(n)
@@ -128,7 +144,7 @@ namespace Assignment2
 
             else
             {
-                Node toAdd = new();
+                Node toAdd = new Node();
                 toAdd.data = Data;
                 Node oldEnd = tail;
 
@@ -143,7 +159,7 @@ namespace Assignment2
         //inserts a node at the position passed
         public void InsertAt(T Data, int position)
         {
-            if (head == null)
+            if (head == null)   //list empty
                 StartList(Data);
             else
             {
@@ -161,7 +177,7 @@ namespace Assignment2
                 else
                 {
                     Node current = head;
-                    for (int i = 0; i < position - 1; i++)
+                    for (int i = 0; i < position - 1; i++)  //traverse to position
                     {
                         current = current.next;
                     }
@@ -174,8 +190,19 @@ namespace Assignment2
                     toInsert.next = nextNode;   //connect new node to both
                 }
             }
-            
             count++;
+        }
+
+        //O(N) where n is the length of the list
+        //this method just generates a random position between 0 and the size of the list, then passes that position and data to the InsertAt method
+        public void InsertAtRandom(T Data)
+        {
+
+            Random rand = new Random();
+            int position = rand.Next(count);
+
+            //pass the generated position to the insert method
+            InsertAt(Data, position);   //count++ is contained in this method
         }
 
         //O(1)

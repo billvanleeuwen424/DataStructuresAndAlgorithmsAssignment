@@ -49,13 +49,13 @@ namespace Assignment2
 
 
             //create 2 bird lists
-            DoubleLinkedList<Bird> Birdlist1 = new();
+            DoubleLinkedList<Bird> Birdlist1 = new DoubleLinkedList<Bird>();
             for (int i = 0; i < 5; i++)
             {
                 Bird tempBird = RandBird(birdNames[i], ref numbirds);
                 Birdlist1.AddLast(tempBird);
             }
-            DoubleLinkedList<Bird> Birdlist2 = new();
+            DoubleLinkedList<Bird> Birdlist2 = new DoubleLinkedList<Bird>();
             for (int i = 0; i < 5; i++)
             {
                 Bird tempBird = RandBird(birdNames[i + 5], ref numbirds);
@@ -131,6 +131,7 @@ namespace Assignment2
 
                             //move one block for each change in x and y
                             double moveX = block * dx;
+
                             double moveY = block * dy;
 
                             snakecatArray.array[i].Move(moveX, moveY);   //move towards bird
@@ -155,8 +156,14 @@ namespace Assignment2
                 Console.WriteLine("\nSnakes and cats");
                 Console.WriteLine(snakecatArray.PrintAllForward());
 
+
+                Console.WriteLine("Press Enter Key for the next round.");
+                Console.ReadLine();
             }
 
+            Console.WriteLine("----------------------------------------------------------------------------");
+            Console.WriteLine("----------------------------------------------------------------------------");
+            Console.WriteLine("----------------------------------------------------------------------------");
             Console.WriteLine("This Simulation took {0} rounds for all of the birds to be eaten..", roundnum);
         }
 

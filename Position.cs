@@ -8,15 +8,23 @@ namespace Assignment2
 {
     /// <summary>
     /// a 3 dimensional position class.
+    /// doubles for the xyz position
+    ///     x,y,z
     /// 
+    /// readonly variables for the board size
+    ///     minX, MinY, MinZ
+    ///     maxX, maxY, maxZ
+    ///    
+    /// 0 arg and 3 arg constructors
     /// 
-    /// constructors:
-    /// 0 arg
-    /// 3 arg (double x, double y, double z)
-    /// 
-    /// methods:
-    /// Move(double, double, double)
-    /// changes x,y,z by amnount. clamps between 0 and 10
+    /// Move
+    /// takes a dx,dy,dz passed to it and moves the position by that much
+    /// will also clamp the position by the minx/maxx etc
+    ///  
+    /// GenerateStarting position
+    /// used for when animals are being generated
+    /// random generation, generates postion based on animals rules,
+    /// ie cats/snakes cant go above 0z, birds can start between 0-100 while cats only 0-20
     /// 
     /// ToString()
     /// </summary>

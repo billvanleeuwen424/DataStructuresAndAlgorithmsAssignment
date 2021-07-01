@@ -6,6 +6,20 @@ using System.Threading.Tasks;
 
 namespace Assignment2
 {
+
+    /// <summary>
+    /// an array list class
+    /// 
+    /// an array, the int for next insert
+    /// 
+    /// 0 arg constructor, 1 arg constructor
+    /// 
+    /// 
+    /// GetCount
+    /// 
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ArrayList<T>
     {
         public T[] array;
