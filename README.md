@@ -1,6 +1,5 @@
 # Snakes and Cats Simulation
 
-<<<<<<< HEAD
 A class project for COIS-2020 Data Structures and Algorithms. This is a console application.
 
 ##### To view this project, you can just easily download the zip, and run it inside MS Visual Studio.
